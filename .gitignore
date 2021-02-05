@@ -1,0 +1,7 @@
+.idea
+HttpServer-Webservices.iml
+core/target
+*/target
+**/target
+target
+*.iml
