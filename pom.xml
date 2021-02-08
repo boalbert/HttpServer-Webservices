@@ -23,7 +23,6 @@
 <!--        <module>spi</module>-->
         <module>core</module>
         <module>client</module>
-        <module>DAO</module>
         <module>SPI</module>
         <module>plugin</module>
     </modules>
