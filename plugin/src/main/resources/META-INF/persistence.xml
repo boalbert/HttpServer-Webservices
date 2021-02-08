@@ -1,0 +1,19 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+    http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+    version="2.1">
+	<persistence-unit name="DatabaseJPA" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>se.iths.plugin.ContactModel</class>
+		<class>Contact</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://188.150.101.33:7078;database=HTTPserver?serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="adminDB"/>
+			<property name="javax.persistence.jdbc.password" value="admin"/>
+			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver"/>
+			<property name="hibernate.jdbc.serverTimezone" value="UTC"/>
+			<property name = "hibernate.show_sql" value = "true" />
+      </properties>
+	</persistence-unit>
+</persistence>

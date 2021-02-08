@@ -18,6 +18,8 @@ public class HttpParser {
 	//2:User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0
 	//3:Content-Type: text/json
 
+	//inputStreamReader istället för socket som inmatning - byteArray(läses som en Socket)
+	//Lagra i en String, Ha en String som Input -
 	public HttpRequestModel constructRequest(Socket socket) throws IOException {
 
 		HttpRequestModel httpRequest = new HttpRequestModel();

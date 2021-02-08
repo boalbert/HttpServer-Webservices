@@ -5,6 +5,7 @@ public class HttpRequestModel extends HttpParser {
 	private String method; // GET, POST, HEAD
 	private String requestPath; // "/" "/web/cat.jpg"
 	private String requestBody;
+	//lägg till för url kod
 
 	public String getRequestBody() {
 		return requestBody;
