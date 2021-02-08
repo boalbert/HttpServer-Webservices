@@ -2,15 +2,15 @@ package se.iths.model;
 
 public class HttpRequest {
 
-	private String method;
+	private String requestMethod;
 	private String requestPath;
 	private String requestBody;
 
 	public HttpRequest() {
 	}
 
-	public HttpRequest(String method, String requestPath) {
-		this.method = method;
+	public HttpRequest(String requestMethod, String requestPath) {
+		this.requestMethod = requestMethod;
 		this.requestPath = requestPath;
 	}
 
@@ -25,17 +25,17 @@ public class HttpRequest {
 	@Override
 	public String toString() {
 		return "HttpRequest{" +
-				"method='" + method + '\'' +
+				"method='" + requestMethod + '\'' +
 				", requestPath='" + requestPath + '\'' +
 				'}';
 	}
 
-	public String getMethod() {
-		return method;
+	public String getRequestMethod() {
+		return requestMethod;
 	}
 
-	public void setMethod(String method) {
-		this.method = method;
+	public void setRequestMethod(String requestMethod) {
+		this.requestMethod = requestMethod;
 	}
 
 	public String getRequestPath() {

@@ -33,7 +33,7 @@ public class ParseRequest {
 		HttpRequest httpRequest = new HttpRequest(requestMethod, requestPath);
 
 		LOGGER.info(" > -- Received request -- ");
-		LOGGER.info(" > Method: " + httpRequest.getMethod());
+		LOGGER.info(" > Method: " + httpRequest.getRequestMethod());
 		LOGGER.info(" > Request path: " + httpRequest.getRequestPath());
 
 		return httpRequest;
