@@ -2,10 +2,11 @@ package se.iths;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.iths.httpHandler.HttpParser;
-import se.iths.httpHandler.HttpRequestModel;
+import se.iths.httpHandler.ParseRequest;
+import se.iths.model.HttpRequest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -44,12 +45,12 @@ public class Server {
 		try {
 			// Create a new httpRequest Model
 			// Parse the request and return a new requestModel
-			HttpRequestModel httpRequest = new HttpParser().constructRequest(socket);
+			InputStream inputStream = socket.getInputStream();
+			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
+
 
 			// Not implemented - create a method / class for creating response
 			// Other method here to send it to client
-				//	HttpResponse httpResponse = new HttpResponse();
-				//	httpResponse.handleResponse(httpRequest,socket);
 
 			socket.close();
 
@@ -58,50 +59,5 @@ public class Server {
 		}
 	}
 
-
-//		private static void handleConnection(Socket socket) {
-//
-//			try {
-//				BufferedReader inputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//
-//				while (true) {
-//					String headerLine = inputReader.readLine();
-//					LOGGER.info(headerLine);
-//
-//					if (headerLine.isEmpty()) {
-//						break;
-//					}
-//				}
-//				var output = new PrintWriter(socket.getOutputStream());
-//				String page =
-//						"""
-//			                  <html>
-//			                  <head>
-//			                      <title>Hello World!</title>
-//			                  <body>
-//			                  <h1>Hello</h1>
-//			                  <div>
-//			                  Here is out main-page.
-//			                  </div>
-//			                  </body>
-//			                  </html>
-//								""";
-//
-//				output.println("HTTP/1.1 200 OK");
-//				output.println("Content-Length:" + page.getBytes().length);
-//				output.println("Content-Type:text/html");  //application/json
-//				output.println("");
-//				output.print(page);
-//
-//				output.flush();
-//				socket.close();
-//
-//
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//
-//
-//		}
 
 }

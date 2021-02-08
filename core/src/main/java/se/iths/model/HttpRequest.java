@@ -1,10 +1,18 @@
-package se.iths.httpHandler;
+package se.iths.model;
 
-public class HttpRequestModel extends HttpParser {
+public class HttpRequest {
 
-	private String method; // GET, POST, HEAD
-	private String requestPath; // "/" "/web/cat.jpg"
+	private String method;
+	private String requestPath;
 	private String requestBody;
+
+	public HttpRequest() {
+	}
+
+	public HttpRequest(String method, String requestPath) {
+		this.method = method;
+		this.requestPath = requestPath;
+	}
 
 	public String getRequestBody() {
 		return requestBody;
@@ -14,9 +22,13 @@ public class HttpRequestModel extends HttpParser {
 		this.requestBody = requestBody;
 	}
 
-	public HttpRequestModel() {
+	@Override
+	public String toString() {
+		return "HttpRequest{" +
+				"method='" + method + '\'' +
+				", requestPath='" + requestPath + '\'' +
+				'}';
 	}
-
 
 	public String getMethod() {
 		return method;
@@ -34,3 +46,4 @@ public class HttpRequestModel extends HttpParser {
 		this.requestPath = requestPath;
 	}
 }
+
