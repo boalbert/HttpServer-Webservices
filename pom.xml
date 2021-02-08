@@ -6,14 +6,16 @@
 
     <groupId>se.iths</groupId>
     <artifactId>HttpServer-Webservices</artifactId>
-    <version>0.0.1</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
+
 
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>15</java.version>
+        <revision>1.0.0-SNAPSHOT</revision>
     </properties>
 
     <name>parent-project</name>
@@ -21,6 +23,9 @@
 <!--        <module>spi</module>-->
         <module>core</module>
         <module>client</module>
+        <module>DAO</module>
+        <module>SPI</module>
+        <module>plugin</module>
     </modules>
 
     <dependencies>

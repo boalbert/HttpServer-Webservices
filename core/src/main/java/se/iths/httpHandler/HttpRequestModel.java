@@ -1,6 +1,6 @@
 package se.iths.httpHandler;
 
-public class HttpRequestModel {
+public class HttpRequestModel extends HttpParser {
 
 	private String method; // GET, POST, HEAD
 	private String requestPath; // "/" "/web/cat.jpg"
@@ -16,6 +16,7 @@ public class HttpRequestModel {
 
 	public HttpRequestModel() {
 	}
+
 
 	public String getMethod() {
 		return method;
