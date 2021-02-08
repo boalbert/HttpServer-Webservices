@@ -26,15 +26,15 @@ public class ConnectionHandler {
             //gets url from requestModel;
             String url = httpRequest.getRequestPath();
 
-            Map <String, IOhandler> routes = new HashMap<>();
+            Map<String, IOhandler> routes = new HashMap<>();
 
             //links the URL to an interface
             routes.put("/index.html", new FileIMPL());
-            routes.put("/contacts", new DatabaseIMPL());
+            routes.put("/contacts.html", new FileIMPL());
             routes.put("/contacts/find", new DatabaseIMPL());
             routes.put("/add", new DatabaseIMPL()); //need for new Interface which adds contact to database
 
-            URLRouter(url, routes,socket);
+            URLRouter(url, routes, socket);
 
             socket.close();
 
@@ -46,9 +46,10 @@ public class ConnectionHandler {
     private static void URLRouter(String url, Map<String, IOhandler> routes, Socket socket) throws IOException {
         //runs method urlHandler based on url as input
         var handler = routes.get(url);
-        if( handler != null)
+        if (handler != null) {
             handler.urlHandler(url, socket);
-    else
-        System.out.println("Oops. Something went wrong. ERROR 404");
+        }else{
+            System.out.println("Oops. Something went wrong. ERROR 404");
     }
+}
 }

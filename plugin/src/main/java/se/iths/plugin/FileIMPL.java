@@ -23,14 +23,16 @@ public class FileIMPL implements IOhandler {
         output.println("Content-Length:" + page.length);
         output.println("Content-Type:"+contentType);  //application/json
         output.println("");
-        //output.println(page);
+        output.println(page);
 
         output.flush();
 
         var dataOut = new BufferedOutputStream(socket.getOutputStream());
+
         dataOut.write(page);
         dataOut.flush();
 
+        socket.close();
         return null;
     }
 
