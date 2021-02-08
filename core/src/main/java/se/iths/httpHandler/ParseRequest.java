@@ -13,11 +13,6 @@ public class ParseRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParseRequest.class);
 
-	//0:GET /images/cat.jpg HTTP/1.1
-	//1:Host: localhost:8080
-	//2:User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0
-	//3:Content-Type: text/json
-
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
 		// Open buffer to read request
 		BufferedReader bufferedReader = new BufferedReader(
