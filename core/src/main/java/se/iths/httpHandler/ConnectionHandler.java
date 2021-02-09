@@ -58,7 +58,7 @@ public class ConnectionHandler {
 			handler = routes.get("/404.html"); //TODO Refactor this, added quick fix for 404 page
 			url = "/404.html";
 			handler.urlHandler(url, socket);
-			System.out.println("Oops. Something went wrong. ERROR 404");
+
 		}
 	}
 }

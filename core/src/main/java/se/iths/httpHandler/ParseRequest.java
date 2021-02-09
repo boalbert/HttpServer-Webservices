@@ -15,17 +15,17 @@ public class ParseRequest {
 
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
 		// Open buffer to read request
-		BufferedReader bufferedReader = new BufferedReader(
+		var bufferedReader = new BufferedReader(
 				new InputStreamReader(inputStream));
 
 		// Parse the request
-		String[] firstRequestRow = getFirstRow(bufferedReader);
+		String[] firstRequestRow = getFirstRequestRow(bufferedReader);
 
 		// Set up the request object
 		String requestMethod = firstRequestRow[0];
 		String requestPath = firstRequestRow[1];
 
-		HttpRequest httpRequest = new HttpRequest(requestMethod, requestPath);
+		var httpRequest = new HttpRequest(requestMethod, requestPath);
 
 		LOGGER.info(" > -- Received request -- ");
 		LOGGER.info(" > Method: " + httpRequest.getRequestMethod());
@@ -34,14 +34,14 @@ public class ParseRequest {
 		return httpRequest;
 	}
 
-	private String[] getFirstRow(BufferedReader bufferedReader) throws IOException {
+	private String[] getFirstRequestRow(BufferedReader bufferedReader) throws IOException {
 
-		StringBuilder requestBuilder = new StringBuilder(); // Will hold the whole request
-		String line;
+		var requestBuilder = new StringBuilder(); // Will hold the whole request
+		String row;
 
 		// Looping through the request line-by-line, each line on a separate row. Use this to parse the body when needed
-		while (!(line = bufferedReader.readLine()).isBlank()) {
-			requestBuilder.append(line + "\r\n");
+		while (!(row = bufferedReader.readLine()).isBlank()) {
+			requestBuilder.append(row).append("\r\n");
 		}
 
 		// Splitting the request into individual lines
@@ -55,4 +55,3 @@ public class ParseRequest {
 		return requestRows[0].split(" ");
 	}
 }
-
