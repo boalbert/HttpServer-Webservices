@@ -27,6 +27,8 @@ public class ConnectionHandler {
 
 			Map<String, IOhandler> routes = new HashMap<>();
 
+			// Om den inte ska nå DatabaseIMPL() så skickar vi den till filehandler (som tar 404) eller
+			// skapar en 404 plugin med felmeddelande
 			//links the URL to an interface
 			routes.put("/", new FileIMPL());
 			routes.put("/index.html", new FileIMPL());
@@ -37,7 +39,7 @@ public class ConnectionHandler {
 			routes.put("/text/readme.txt", new FileIMPL());
 			routes.put("/contacts.html", new FileIMPL());
 
-			routes.put("/contacts/find", new DatabaseIMPL());
+//			routes.put("/contacts/find", new DatabaseIMPL());
 			routes.put("/add", new DatabaseIMPL()); //need for new Interface which adds contact to database
 
 			URLRouter(url, routes, socket);
