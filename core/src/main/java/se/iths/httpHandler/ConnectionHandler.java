@@ -34,7 +34,7 @@ public class ConnectionHandler {
             routes.put("/contacts/find", new DatabaseIMPL());
             routes.put("/add", new DatabaseIMPL()); //need for new Interface which adds contact to database
 
-            URLRouter(url, routes, socket);
+            URLHandler(url, routes, socket);
 
             socket.close();
 
@@ -43,7 +43,7 @@ public class ConnectionHandler {
         }
     }
 
-    private static void URLRouter(String url, Map<String, IOhandler> routes, Socket socket) throws IOException {
+    private static void URLHandler(String url, Map<String, IOhandler> routes, Socket socket) throws IOException {
         //runs method urlHandler based on url as input
         var handler = routes.get(url);
         if (handler != null) {
