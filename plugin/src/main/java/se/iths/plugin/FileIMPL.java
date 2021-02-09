@@ -2,8 +2,8 @@ package se.iths.plugin;
 
 import se.iths.spi.IOhandler;
 
-import java.io.*;
-import java.net.Socket;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,27 +12,17 @@ import java.nio.file.Paths;
 public class FileIMPL implements IOhandler {
 
 	@Override
-	public String urlHandler(String requestPath, Socket socket) throws IOException {
-
-        var output = new BufferedOutputStream(socket.getOutputStream());
-
+	public byte[] urlHandler(String requestPath) {
 		var filePath = getFilePath(requestPath);
+		byte[] file = new byte[0];
 
-		byte[] file = Files.readAllBytes(filePath);
+		try {
+			file = Files.readAllBytes(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		var contentType = findContentType(filePath);
-
-		output.write(("HTTP/1.1 200 OK" + "\r\n").getBytes());
-		output.write(("Content-Type: " + contentType + "\r\n").getBytes());
-		output.write(("Content-Length: " + file.length).getBytes());
-		output.write(("\r\n\r\n").getBytes());
-		output.write(file);
-        output.write(("\r\n").getBytes());
-		output.flush();
-		output.close();
-		socket.close();
-
-		return null;
+		return file;
 	}
 
 	private Path getFilePath(String requestPath) {
@@ -47,9 +37,5 @@ public class FileIMPL implements IOhandler {
 		}
 
 		return Paths.get(root, requestPath);
-	}
-
-	private String findContentType(Path filepath) throws IOException {
-		return Files.probeContentType(filepath);
 	}
 }

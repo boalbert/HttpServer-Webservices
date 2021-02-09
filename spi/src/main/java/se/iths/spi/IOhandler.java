@@ -5,6 +5,6 @@ import java.net.Socket;
 
 public interface IOhandler {
 
-    String urlHandler(String url, Socket socket) throws IOException;
+    public byte[] urlHandler(String requestPath);
 
 }

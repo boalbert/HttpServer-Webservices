@@ -27,10 +27,6 @@ public class ParseRequest {
 
 		var httpRequest = new HttpRequest(requestMethod, requestPath);
 
-		LOGGER.info(" > -- Received request -- ");
-		LOGGER.info(" > Method: " + httpRequest.getRequestMethod());
-		LOGGER.info(" > Request path: " + httpRequest.getRequestPath());
-
 		return httpRequest;
 	}
 

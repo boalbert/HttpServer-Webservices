@@ -15,7 +15,6 @@ public class ConnectionHandler {
 
 
 	public static void handleConnection(Socket socket) {
-
 		try {
 			// Create a new httpRequest Model
 			// Parse the request and return a new requestModel
@@ -30,6 +29,7 @@ public class ConnectionHandler {
 			// Om den inte ska nå DatabaseIMPL() så skickar vi den till filehandler (som tar 404) eller
 			// skapar en 404 plugin med felmeddelande
 			//links the URL to an interface
+
 			routes.put("/", new FileIMPL());
 			routes.put("/index.html", new FileIMPL());
 			routes.put("/404.html", new FileIMPL());
@@ -39,28 +39,34 @@ public class ConnectionHandler {
 			routes.put("/text/readme.txt", new FileIMPL());
 			routes.put("/contacts.html", new FileIMPL());
 
-//			routes.put("/contacts/find", new DatabaseIMPL());
 			routes.put("/add", new DatabaseIMPL()); //need for new Interface which adds contact to database
 
-			URLRouter(url, routes, socket);
+			//TODO Refactor!
+			ResponseHandler responseHandler = new ResponseHandler();
+			responseHandler.sendResponse(pluginHandler(url, routes), socket, httpRequest);
 
 			socket.close();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void URLRouter(String url, Map<String, IOhandler> routes, Socket socket) throws IOException {
+	//TODO Create a new class for this
+	private static byte[] pluginHandler(String url, Map<String, IOhandler> routes) throws IOException {
 		//runs method urlHandler based on url as input
 		var handler = routes.get(url);
+
+		byte[] file = null;
+
 		if (handler != null) {
-			handler.urlHandler(url, socket);
+			file = handler.urlHandler(url);
 		} else {
 			handler = routes.get("/404.html"); //TODO Refactor this, added quick fix for 404 page
 			url = "/404.html";
-			handler.urlHandler(url, socket);
 
+			file = handler.urlHandler(url);
 		}
+		return file;
 	}
 }
