@@ -5,18 +5,27 @@ import se.iths.spi.IOhandler;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
 
 public class DatabaseIMPL implements IOhandler {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DatabaseJPA");
 
-    @Override
-    public String urlHandler(String parsedURL) {
-        String finalString = "";
+    public static void main(String[] args) {
 
-        return finalString;
+       ContactModel c = new ContactModel();
+       c.setFirstName("t");
+       c.setLastName("t");
+       c.setEmail("t");
+       c.setPhoneNumber("045040");
+       createContact(c);
+
     }
+
+
+    public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("DatabaseJPA");
+
 
     public List findContact(int id)  {
         boolean contactFound = false;
@@ -29,7 +38,7 @@ public class DatabaseIMPL implements IOhandler {
         return list;
     }
 
-    public void createContact(ContactModel contactModel) {
+    public static void createContact(ContactModel contactModel) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(contactModel);
@@ -50,4 +59,8 @@ public class DatabaseIMPL implements IOhandler {
         return status;
     }
 
+    @Override
+    public String urlHandler(String url, Socket socket) throws IOException {
+        return null;
+    }
 }

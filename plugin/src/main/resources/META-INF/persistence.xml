@@ -11,7 +11,7 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://188.150.101.33:7078;database=HTTPserver?serverTimezone=UTC"/>
 			<property name="javax.persistence.jdbc.user" value="adminDB"/>
 			<property name="javax.persistence.jdbc.password" value="admin"/>
-			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver"/>
+			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 			<property name="hibernate.jdbc.serverTimezone" value="UTC"/>
 			<property name = "hibernate.show_sql" value = "true" />
       </properties>
