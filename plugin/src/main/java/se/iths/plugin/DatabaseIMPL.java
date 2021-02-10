@@ -17,6 +17,7 @@ public class DatabaseIMPL implements IOhandler {
         ContactDaoImpl contactDao = new ContactDaoImpl();
         Contact contact = contactDao.findById(1);
 
+        //TODO Ändra till .json-format
         byte[] file = (
 
                 "<html><body>" +
