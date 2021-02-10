@@ -18,31 +18,29 @@ public class ParseRequest {
 		var bufferedReader = new BufferedReader(
 				new InputStreamReader(inputStream));
 
-		// Parse the request
-		String[] firstRequestRow = getFirstRequestRow(bufferedReader);
+
+		StringBuilder fetchWholeRequest = readWholeRequest(bufferedReader);
+		LOGGER.info(fetchWholeRequest.toString());
+
+		String[] requestHeader = getRequestHeader(fetchWholeRequest);
+
+		String requestBody = getRequestBody(fetchWholeRequest);
+
+
 
 		// Set up the request object
-		String requestMethod = firstRequestRow[0];
-		String requestPath = firstRequestRow[1];
+		String requestMethod = requestHeader[0];
+		String requestPath = requestHeader[1];
 
 		var httpRequest = new HttpRequest(requestMethod, requestPath);
 
 		return httpRequest;
 	}
 
-	private String[] getFirstRequestRow(BufferedReader bufferedReader) throws IOException {
-
-		var requestBuilder = new StringBuilder(); // Will hold the whole request
-		String row;
-
-		// Looping through the request line-by-line, each line on a separate row. Use this to parse the body when needed
-		while (!(row = bufferedReader.readLine()).isBlank()) {
-			requestBuilder.append(row).append("\r\n");
-			LOGGER.info(" > " + row);
-		}
+	private String[] getRequestHeader(StringBuilder builder) {
 
 		// Splitting the request into individual lines
-		String wholeRequest = requestBuilder.toString();
+		String wholeRequest = builder.toString();
 
 		// Splitting them where there is a linebreak, "\r\n"
 		String[] requestRows = wholeRequest.split("\r\n");
@@ -50,5 +48,34 @@ public class ParseRequest {
 		// Splitting the first row in three parts, split where there is a whitespace, " "
 		// "[GET, /path, HTTP/1.1]
 		return requestRows[0].split(" ");
+	}
+
+	private String getRequestBody(StringBuilder builder) {
+
+		String wholeRequest = builder.toString();
+		String[] rows = wholeRequest.split("\r\n");
+		var lastRow = rows[rows.length-1];
+
+		return lastRow;
+	}
+
+	private StringBuilder readWholeRequest(BufferedReader bufferedReader) throws IOException {
+
+		StringBuilder builder = new StringBuilder();
+		String line;
+
+		// Break när vi har content length == hela contentlength
+		do {
+			line = bufferedReader.readLine();
+			if(line == null) {
+				break;
+			}
+			builder.append(line).append("\r\n");
+
+		} while(true);
+
+		return builder;
+
+
 	}
 }

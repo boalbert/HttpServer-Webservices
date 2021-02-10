@@ -33,6 +33,7 @@ public class ConnectionHandler {
 			routes.put("/", new FileIMPL());
 			routes.put("/index.html", new FileIMPL());
 			routes.put("/post.html", new FileIMPL());
+			routes.put("/testpost.html", new FileIMPL());
 			routes.put("/404.html", new FileIMPL());
 			routes.put("/pdf/git.pdf", new FileIMPL());
 			routes.put("/img/cat.png", new FileIMPL());
