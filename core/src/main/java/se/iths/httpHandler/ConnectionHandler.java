@@ -32,6 +32,7 @@ public class ConnectionHandler {
 
 			routes.put("/", new FileIMPL());
 			routes.put("/index.html", new FileIMPL());
+			routes.put("/post.html", new FileIMPL());
 			routes.put("/404.html", new FileIMPL());
 			routes.put("/pdf/git.pdf", new FileIMPL());
 			routes.put("/img/cat.png", new FileIMPL());
@@ -39,7 +40,7 @@ public class ConnectionHandler {
 			routes.put("/text/readme.txt", new FileIMPL());
 			routes.put("/contacts.html", new FileIMPL());
 
-			routes.put("/add", new DatabaseIMPL()); //need for new Interface which adds contact to database
+			routes.put("/contact", new DatabaseIMPL()); //need for new Interface which adds contact to database
 
 			//TODO Refactor!
 			ResponseHandler responseHandler = new ResponseHandler();

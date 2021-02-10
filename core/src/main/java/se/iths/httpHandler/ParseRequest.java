@@ -38,6 +38,7 @@ public class ParseRequest {
 		// Looping through the request line-by-line, each line on a separate row. Use this to parse the body when needed
 		while (!(row = bufferedReader.readLine()).isBlank()) {
 			requestBuilder.append(row).append("\r\n");
+			LOGGER.info(" > " + row);
 		}
 
 		// Splitting the request into individual lines

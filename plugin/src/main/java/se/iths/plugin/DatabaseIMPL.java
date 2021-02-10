@@ -13,11 +13,24 @@ public class DatabaseIMPL implements IOhandler {
     @Override
     public byte[] urlHandler(String requestPath) {
 
+
         ContactDaoImpl contactDao = new ContactDaoImpl();
         Contact contact = contactDao.findById(1);
 
-        byte[] file = ("<html><body><p>" + contact.getFirstName() + contact.getLastName() + "</p></body></html>").getBytes();
+        byte[] file = (
+
+                "<html><body>" +
+                "<h1>Contact Info</h1>" +
+                "<p>Firstname: " + contact.getFirstName() + "</p>" +
+                "<p>Lastname: " + contact.getLastName() + "</p>" +
+                "</body></html>"
+
+        ).getBytes();
 
         return file;
     }
+
+    // Read create contact() -> /create?firstname=Johan&lastname=Nilsson
+
+    // TODO Gör en metod som läser ut /contact/2 och hämtar endast '2' och kör findById på den
 }
