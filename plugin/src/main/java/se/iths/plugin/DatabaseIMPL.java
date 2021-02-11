@@ -15,7 +15,7 @@ public class DatabaseIMPL implements IOhandler {
 
 
         ContactDaoImpl contactDao = new ContactDaoImpl();
-        Contact contact = contactDao.findById(1);
+        Contact contact = contactDao.findById(extractContactId(requestPath));
 
         byte[] file = (
 
@@ -30,7 +30,43 @@ public class DatabaseIMPL implements IOhandler {
         return file;
     }
 
-    // Read create contact() -> /create?firstname=Johan&lastname=Nilsson
+    public Contact createContactFromUrl(String requestPath) {
 
-    // TODO Gör en metod som läser ut /contact/2 och hämtar endast '2' och kör findById på den
+        Contact contact = new Contact();
+
+        contact.setFirstName(extractFirstName(requestPath));
+        contact.setLastName(extractLastName(requestPath));
+
+        return contact;
+    }
+
+    public static int extractContactId(String contactString) {
+
+        int indexAt = contactString.indexOf("/", 2) + 1;
+        int contactId = Integer.parseInt(contactString.substring(indexAt));
+
+        return contactId;
+    }
+
+    public static String extractFirstName(String nameString) {
+
+        int beforeFirstName = nameString.indexOf("=") + 1;
+
+        int afterFirstName = nameString.indexOf("&");
+
+        String firstName = nameString.substring(beforeFirstName,afterFirstName);
+
+        return firstName;
+    }
+
+    public static String extractLastName(String nameString) {
+
+        int afterFirstName = nameString.indexOf("&");
+
+        int beforeLastName = nameString.indexOf("=", afterFirstName) + 1;
+
+        String lastName = nameString.substring(beforeLastName);
+
+        return lastName;
+    }
 }
