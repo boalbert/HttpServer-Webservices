@@ -13,18 +13,21 @@ public class ParseRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParseRequest.class);
 
+
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
+		
+
 		// Open buffer to read request
 		var bufferedReader = new BufferedReader(
 				new InputStreamReader(inputStream));
 
 
 		StringBuilder fetchWholeRequest = readWholeRequest(bufferedReader);
-		LOGGER.info(fetchWholeRequest.toString());
+//		LOGGER.info(fetchWholeRequest.toString());
 
 		String[] requestHeader = getRequestHeader(fetchWholeRequest);
 
-		String requestBody = getRequestBody(fetchWholeRequest);
+//		String requestBody = getRequestBody(fetchWholeRequest);
 
 
 
@@ -41,13 +44,17 @@ public class ParseRequest {
 
 		// Splitting the request into individual lines
 		String wholeRequest = builder.toString();
+		LOGGER.info("wholeRequest: " + wholeRequest);
 
 		// Splitting them where there is a linebreak, "\r\n"
 		String[] requestRows = wholeRequest.split("\r\n");
 
 		// Splitting the first row in three parts, split where there is a whitespace, " "
 		// "[GET, /path, HTTP/1.1]
-		return requestRows[0].split(" ");
+		String[] firstrow = requestRows[0].split(" ");
+		LOGGER.info("firstRow[0]: " + firstrow[0].toString());
+		LOGGER.info("firstRow[1]: " + firstrow[1].toString());
+		return firstrow;
 	}
 
 	private String getRequestBody(StringBuilder builder) {
@@ -67,7 +74,7 @@ public class ParseRequest {
 		// Break när vi har content length == hela contentlength
 		do {
 			line = bufferedReader.readLine();
-			if(line == null) {
+			if(line.equals("")) {
 				break;
 			}
 			builder.append(line).append("\r\n");
