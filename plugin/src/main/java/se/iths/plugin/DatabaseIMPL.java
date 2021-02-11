@@ -4,70 +4,75 @@ import se.iths.plugin.model.Contact;
 import se.iths.plugin.model.ContactDaoImpl;
 import se.iths.spi.IOhandler;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-
 public class DatabaseIMPL implements IOhandler {
 
-    @Override
-    public byte[] urlHandler(String requestPath) {
+	@Override
+	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 
+		Contact contact = new Contact();
+		ContactDaoImpl contactDao = new ContactDaoImpl();
 
-        ContactDaoImpl contactDao = new ContactDaoImpl();
-        Contact contact = contactDao.findById(extractContactId(requestPath));
+		if (requestPath.contains("/findcontact")) {
+			contact = contactDao.findById(extractContactId(requestPath));
+		} else {
+			String firstName = extractFirstName(requestPath);
+			String lastName = extractLastName(requestPath);
+			contact.setFirstName(firstName);
+			contact.setLastName(lastName);
+			contactDao.createContact(contact);
+		}
 
-        //TODO Ändra till .json-format
-        byte[] file = (
+		//TODO Ändra till .json-format
+		byte[] file = (
 
-                "<html><body>" +
-                "<h1>Contact Info</h1>" +
-                "<p>Firstname: " + contact.getFirstName() + "</p>" +
-                "<p>Lastname: " + contact.getLastName() + "</p>" +
-                "</body></html>"
+				"<html><body>" +
+						"<h1>Contact Info</h1>" +
+						"<p>Firstname: " + contact.getFirstName() + "</p>" +
+						"<p>Lastname: " + contact.getLastName() + "</p>" +
+						"</body></html>"
 
-        ).getBytes();
+		).getBytes();
 
-        return file;
-    }
+		return file;
+	}
 
-    public Contact createContactFromUrl(String requestPath) {
+	public static int extractContactId(String contactString) {
 
-        Contact contact = new Contact();
+		int indexAt = contactString.indexOf("/", 2) + 1;
+		int contactId = Integer.parseInt(contactString.substring(indexAt));
 
-        contact.setFirstName(extractFirstName(requestPath));
-        contact.setLastName(extractLastName(requestPath));
+		return contactId;
+	}
 
-        return contact;
-    }
+	public static String extractFirstName(String nameString) {
 
-    public static int extractContactId(String contactString) {
+		int beforeFirstName = nameString.indexOf("=") + 1;
 
-        int indexAt = contactString.indexOf("/", 2) + 1;
-        int contactId = Integer.parseInt(contactString.substring(indexAt));
+		int afterFirstName = nameString.indexOf("&");
 
-        return contactId;
-    }
+		String firstName = nameString.substring(beforeFirstName, afterFirstName);
 
-    public static String extractFirstName(String nameString) {
+		return firstName;
+	}
 
-        int beforeFirstName = nameString.indexOf("=") + 1;
+	public static String extractLastName(String nameString) {
 
-        int afterFirstName = nameString.indexOf("&");
+		int afterFirstName = nameString.indexOf("&");
 
-        String firstName = nameString.substring(beforeFirstName,afterFirstName);
+		int beforeLastName = nameString.indexOf("=", afterFirstName) + 1;
 
-        return firstName;
-    }
+		String lastName = nameString.substring(beforeLastName);
 
-    public static String extractLastName(String nameString) {
+		return lastName;
+	}
 
-        int afterFirstName = nameString.indexOf("&");
+	public Contact createContactFromUrl(String requestPath) {
 
-        int beforeLastName = nameString.indexOf("=", afterFirstName) + 1;
+		Contact contact = new Contact();
 
-        String lastName = nameString.substring(beforeLastName);
+		contact.setFirstName(extractFirstName(requestPath));
+		contact.setLastName(extractLastName(requestPath));
 
-        return lastName;
-    }
+		return contact;
+	}
 }

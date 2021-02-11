@@ -3,6 +3,7 @@ package se.iths.httpHandler;
 import se.iths.model.HttpRequest;
 import se.iths.plugin.DatabaseIMPL;
 import se.iths.plugin.FileIMPL;
+import se.iths.plugin.PostDatabaseIMPL;
 import se.iths.spi.IOhandler;
 
 import java.io.IOException;
@@ -30,22 +31,19 @@ public class ConnectionHandler {
 			// skapar en 404 plugin med felmeddelande
 			//links the URL to an interface
 
-			routes.put("/", new FileIMPL());
-			routes.put("/index.html", new FileIMPL());
-			routes.put("/post.html", new FileIMPL());
-			routes.put("/testpost.html", new FileIMPL());
-			routes.put("/404.html", new FileIMPL());
-			routes.put("/pdf/git.pdf", new FileIMPL());
-			routes.put("/img/cat.png", new FileIMPL());
-			routes.put("/img/dog.jpeg", new FileIMPL());
-			routes.put("/text/readme.txt", new FileIMPL());
-			routes.put("/contacts.html", new FileIMPL());
+			routes.put("/create", new DatabaseIMPL()); //need for new Interface which adds contact to database
+			routes.put("/postcontact", new PostDatabaseIMPL());
 
-			routes.put("/contact", new DatabaseIMPL()); //need for new Interface which adds contact to database
+			if (httpRequest.getRequestPath().contains("/findcontact/")) {
+				routes.put(httpRequest.getRequestPath(), new DatabaseIMPL()); //need for new Interface which adds contact to database
+			} else if (httpRequest.getRequestPath().contains(".") || httpRequest.getRequestPath().contains("/")) {
+				routes.put(httpRequest.getRequestPath(), new FileIMPL());
+			}
+
 
 			//TODO Refactor!
 			ResponseHandler responseHandler = new ResponseHandler();
-			responseHandler.sendResponse(pluginHandler(url, routes), socket, httpRequest);
+			responseHandler.sendResponse(pluginHandler(url, routes, httpRequest.getRequestBody(), httpRequest.getRequestMethod()), socket, httpRequest);
 
 			socket.close();
 
@@ -55,19 +53,23 @@ public class ConnectionHandler {
 	}
 
 	//TODO Create a new class for this
-	private static byte[] pluginHandler(String url, Map<String, IOhandler> routes) throws IOException {
+	private static byte[] pluginHandler(String url, Map<String, IOhandler> routes, String requestBody, String requestMethod) throws IOException {
 		//runs method urlHandler based on url as input
 		var handler = routes.get(url);
 
-		byte[] file = null;
+		byte[] file;
 
 		if (handler != null) {
-			file = handler.urlHandler(url);
+			file = handler.urlHandler(url, requestBody, requestMethod);
+		} else if (url.contains("create")) {
+			handler = routes.get("/create");
+			file = handler.urlHandler(url, requestBody, requestMethod);
+
 		} else {
 			handler = routes.get("/404.html"); //TODO Refactor this, added quick fix for 404 page
 			url = "/404.html";
 
-			file = handler.urlHandler(url);
+			file = handler.urlHandler(url, requestBody, requestMethod);
 		}
 		return file;
 	}

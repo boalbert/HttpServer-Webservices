@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 public class FileIMPL implements IOhandler {
 
 	@Override
-	public byte[] urlHandler(String requestPath) {
+	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 		var filePath = getFilePath(requestPath);
 		byte[] file = new byte[0];
 

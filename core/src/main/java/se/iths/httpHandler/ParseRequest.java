@@ -15,58 +15,33 @@ public class ParseRequest {
 
 
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
-		
 
-		// Open buffer to read request
 		var bufferedReader = new BufferedReader(
 				new InputStreamReader(inputStream));
 
+		var httpRequest = new HttpRequest();
 
-		StringBuilder fetchWholeRequest = readWholeRequest(bufferedReader);
-//		LOGGER.info(fetchWholeRequest.toString());
+		StringBuilder head = getRequestHeader(bufferedReader);
+		String[] requestRows = readRequestHeader(head);
 
-		String[] requestHeader = getRequestHeader(fetchWholeRequest);
+		String[] firstRow = getFirstRowInHeader(requestRows);
 
-//		String requestBody = getRequestBody(fetchWholeRequest);
+		if (firstRow[0].equals("POST")) {
+			int contentLength = getContentLength(requestRows);
+			String requestBody = getRequestBody(bufferedReader, contentLength);
+			httpRequest.setRequestBody(requestBody);
+		}
 
+		String requestMethod = firstRow[0];
+		String requestPath = firstRow[1];
 
-
-		// Set up the request object
-		String requestMethod = requestHeader[0];
-		String requestPath = requestHeader[1];
-
-		var httpRequest = new HttpRequest(requestMethod, requestPath);
+		httpRequest.setRequestMethod(requestMethod);
+		httpRequest.setRequestPath(requestPath);
 
 		return httpRequest;
 	}
 
-	private String[] getRequestHeader(StringBuilder builder) {
-
-		// Splitting the request into individual lines
-		String wholeRequest = builder.toString();
-		LOGGER.info("wholeRequest: " + wholeRequest);
-
-		// Splitting them where there is a linebreak, "\r\n"
-		String[] requestRows = wholeRequest.split("\r\n");
-
-		// Splitting the first row in three parts, split where there is a whitespace, " "
-		// "[GET, /path, HTTP/1.1]
-		String[] firstrow = requestRows[0].split(" ");
-		LOGGER.info("firstRow[0]: " + firstrow[0].toString());
-		LOGGER.info("firstRow[1]: " + firstrow[1].toString());
-		return firstrow;
-	}
-
-	private String getRequestBody(StringBuilder builder) {
-
-		String wholeRequest = builder.toString();
-		String[] rows = wholeRequest.split("\r\n");
-		var lastRow = rows[rows.length-1];
-
-		return lastRow;
-	}
-
-	private StringBuilder readWholeRequest(BufferedReader bufferedReader) throws IOException {
+	private StringBuilder getRequestHeader(BufferedReader bufferedReader) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 		String line;
@@ -74,15 +49,66 @@ public class ParseRequest {
 		// Break när vi har content length == hela contentlength
 		do {
 			line = bufferedReader.readLine();
-			if(line.equals("")) {
+			if (line.equals("")) {
 				break;
 			}
 			builder.append(line).append("\r\n");
 
-		} while(true);
+		} while (true);
 
 		return builder;
+	}
 
+	private String[] readRequestHeader(StringBuilder builder) {
 
+		// Splitting the request into individual lines
+		String wholeRequest = builder.toString();
+
+		// Splitting them where there is a linebreak, "\r\n"
+		String[] requestRows = wholeRequest.split("\r\n");
+
+		return requestRows;
+
+		// Splitting the first row in three parts, split where there is a whitespace, " "
+		// "[GET, /path, HTTP/1.1]
+
+	}
+
+	private String[] getFirstRowInHeader(String[] header) {
+
+		String[] firstrow = header[0].split(" ");
+
+		return firstrow;
+	}
+
+	private int getContentLength(String[] requestRows) {
+
+		int contentLengthIndex = 0;
+		for (int i = 0; i < requestRows.length; i++) {
+			if (requestRows[i].contains("Content-Length:")) {
+				contentLengthIndex = i;
+			}
+		}
+		String contentLengthAsText = requestRows[contentLengthIndex];
+
+		String[] lengthArray = contentLengthAsText.split(" ");
+
+		String length = lengthArray[1];
+
+		return Integer.parseInt(length);
+	}
+
+	private String getRequestBody(BufferedReader bufferedReader, int length) throws IOException {
+
+		char[] buffer = new char[length];
+
+		bufferedReader.read(buffer, 0, buffer.length);
+
+		String postData = "";
+
+		postData = new String(buffer, 0, buffer.length);
+
+		LOGGER.info(postData);
+		return postData;
 	}
 }
