@@ -33,10 +33,11 @@ public class ConnectionHandler {
 
 			routes.put("/create", new DatabaseIMPL()); //need for new Interface which adds contact to database
 			routes.put("/postcontact", new PostDatabaseIMPL());
+			routes.put("/", new FileIMPL());
 
 			if (httpRequest.getRequestPath().contains("/findcontact/")) {
 				routes.put(httpRequest.getRequestPath(), new DatabaseIMPL()); //need for new Interface which adds contact to database
-			} else if (httpRequest.getRequestPath().contains(".") || httpRequest.getRequestPath().contains("/")) {
+			} else if (httpRequest.getRequestPath().contains(".")) {
 				routes.put(httpRequest.getRequestPath(), new FileIMPL());
 			}
 

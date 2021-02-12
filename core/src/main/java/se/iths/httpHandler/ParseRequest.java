@@ -108,7 +108,6 @@ public class ParseRequest {
 
 		postData = new String(buffer, 0, buffer.length);
 
-		LOGGER.info(postData);
 		return postData;
 	}
 }

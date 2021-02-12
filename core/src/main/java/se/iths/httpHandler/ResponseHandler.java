@@ -14,6 +14,10 @@ public class ResponseHandler {
 
 	public void sendResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
 
+		// HttpResponse
+		// fyll på det i en egen metod
+		// skicka response i en egen metod
+
 		String contentType = guessContentTypeFromUrl(httpRequest.getRequestPath());
 
 		var output = new BufferedOutputStream(socket.getOutputStream());
