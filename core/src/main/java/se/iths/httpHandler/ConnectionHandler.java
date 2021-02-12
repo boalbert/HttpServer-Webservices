@@ -21,7 +21,6 @@ public class ConnectionHandler {
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
 			String url = httpRequest.getRequestPath();
-
 			Map<String, IOhandler> routes = new HashMap<>();
 
 
@@ -35,10 +34,12 @@ public class ConnectionHandler {
 				routes.put(httpRequest.getRequestPath(), new FileIMPL());
 			}
 
+			PluginHandler pluginHandler = new PluginHandler(routes,httpRequest);
+			byte [] content = pluginHandler.URLHandler(httpRequest);
 
-			//TODO Refactor!
 			ResponseHandler responseHandler = new ResponseHandler();
-			responseHandler.handleResponse(pluginHandler(url, routes, httpRequest.getRequestBody(), httpRequest.getRequestMethod()), socket, httpRequest);
+
+			responseHandler.handleResponse(content,socket, httpRequest);
 
 			socket.close();
 
@@ -47,7 +48,7 @@ public class ConnectionHandler {
 		}
 	}
 
-	//TODO Create a new class for this
+
 	private static byte[] pluginHandler(String url, Map<String, IOhandler> routes, String requestBody, String requestMethod) throws IOException {
 
 		var handler = routes.get(url);
