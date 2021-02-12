@@ -20,25 +20,12 @@ public class ConnectionHandler {
 			InputStream inputStream = socket.getInputStream();
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
-			String url = httpRequest.getRequestPath();
-			Map<String, IOhandler> routes = new HashMap<>();
-
-
-			routes.put("/create", new DatabaseIMPL());
-			routes.put("/postcontact", new PostDatabaseIMPL());
-			routes.put("/", new FileIMPL());
-
-			if (httpRequest.getRequestPath().contains("/findcontact/")) {
-				routes.put(httpRequest.getRequestPath(), new DatabaseIMPL());
-			} else if (httpRequest.getRequestPath().contains(".")) {
-				routes.put(httpRequest.getRequestPath(), new FileIMPL());
-			}
-
+			HashMap <String,IOhandler> routes = setURLRoutes(httpRequest);
 			PluginHandler pluginHandler = new PluginHandler(routes,httpRequest);
+
 			byte [] content = pluginHandler.URLHandler(httpRequest);
 
 			ResponseHandler responseHandler = new ResponseHandler();
-
 			responseHandler.handleResponse(content,socket, httpRequest);
 
 			socket.close();
@@ -48,25 +35,20 @@ public class ConnectionHandler {
 		}
 	}
 
+	private static HashMap <String, IOhandler> setURLRoutes(HttpRequest httpRequest) {
 
-	private static byte[] pluginHandler(String url, Map<String, IOhandler> routes, String requestBody, String requestMethod) throws IOException {
+		Map<String, IOhandler> routes = new HashMap<>();
 
-		var handler = routes.get(url);
+		routes.put("/create", new DatabaseIMPL());
+		routes.put("/postcontact", new PostDatabaseIMPL());
+		routes.put("/", new FileIMPL());
 
-		byte[] file;
-
-		if (handler != null) {
-			file = handler.urlHandler(url, requestBody, requestMethod);
-		} else if (url.contains("create")) {
-			handler = routes.get("/create");
-			file = handler.urlHandler(url, requestBody, requestMethod);
-
-		} else {
-			handler = routes.get("/404.html"); //TODO Refactor this, added quick fix for 404 page
-			url = "/404.html";
-
-			file = handler.urlHandler(url, requestBody, requestMethod);
+		if (httpRequest.getRequestPath().contains("/findcontact/")) {
+			routes.put(httpRequest.getRequestPath(), new DatabaseIMPL());
+		} else if (httpRequest.getRequestPath().contains(".")) {
+			routes.put(httpRequest.getRequestPath(), new FileIMPL());
 		}
-		return file;
+		return (HashMap<String, IOhandler>) routes;
 	}
+
 }
