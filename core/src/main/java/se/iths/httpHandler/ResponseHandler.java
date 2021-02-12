@@ -3,47 +3,48 @@ package se.iths.httpHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.iths.model.HttpRequest;
+import se.iths.model.HttpResponse;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.URLConnection;
 
 public class ResponseHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseHandler.class);
+	public void handleResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
+		var bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
 
-	public void sendResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
+		HttpResponse httpResponse = createHttpResponse(content,httpRequest);
 
-		// HttpResponse
-		// fyll på det i en egen metod
-		// skicka response i en egen metod
+		sendHttpResponse(httpResponse,bufferedOutputStream);
 
-		String contentType = guessContentTypeFromUrl(httpRequest.getRequestPath());
-
-		var output = new BufferedOutputStream(socket.getOutputStream());
-
-		// TODO Generate the output-message via a method?
-		output.write(("HTTP/1.1 200 OK" + "\r\n").getBytes());
-		output.write(("Content-Type: " + contentType + "\r\n").getBytes());
-		output.write(("Content-Length: " + content.length).getBytes());
-		output.write(("\r\n\r\n").getBytes());
-		output.write(content);
-		output.write(("\r\n").getBytes());
-		output.flush();
-		output.close();
 		socket.close();
+	}
 
-		LOGGER.info(" --- Sending Response --- ");
-		LOGGER.info(" > HTTP/1.1 200 OK");
-		LOGGER.info(" > Content-Type: " + contentType);
-		LOGGER.info(" > Content-Length: " + content.length);
-		LOGGER.info(" > \r\n\r\n");
-		LOGGER.info(" > 'Placeholder for content (sent as byte[])'");
-		LOGGER.info(" > \r\n");
-		LOGGER.info(" ------------------------");
+	private void sendHttpResponse(HttpResponse httpResponse, BufferedOutputStream bufferedOutputStream) throws IOException {
+
+		bufferedOutputStream.write(("HTTP/1.1 " + httpResponse.getStatus() + "\r\n").getBytes());
+		bufferedOutputStream.write(("Content-Type: " + httpResponse.getContentType() + "\r\n").getBytes());
+		bufferedOutputStream.write(("Content-Length : " + httpResponse.getContentLength()).getBytes());
+		bufferedOutputStream.write(("\r\n\r\n").getBytes());
+		bufferedOutputStream.write(httpResponse.getContent());
+		bufferedOutputStream.write(("\r\n\r\n").getBytes());
+		bufferedOutputStream.flush();
+		bufferedOutputStream.close();
 
 	}
-	// TODO Does not work with favicon.ico
+
+	private HttpResponse createHttpResponse(byte[] content, HttpRequest httpRequest) {
+		HttpResponse httpResponse = new HttpResponse();
+		httpResponse.setStatus("200 OK");
+		httpResponse.setContentType(guessContentTypeFromUrl(httpRequest.getRequestPath()));
+		httpResponse.setContentLength(content.length);
+		httpResponse.setContent(content);
+
+		return httpResponse;
+	}
+
 	private String guessContentTypeFromUrl(String requestPath) {
 
 		String mimeType = URLConnection.guessContentTypeFromName(requestPath);
