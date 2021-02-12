@@ -1,6 +1,6 @@
-import se.iths.plugin.DatabaseIMPL;
-import se.iths.plugin.FileIMPL;
-import se.iths.spi.IOhandler;
+import se.iths.plugin.DatebaseImpl;
+import se.iths.plugin.FileImpl;
+import se.iths.spi.IoHandler;
 
 module se.iths.plugin {
     exports se.iths.plugin;
@@ -12,5 +12,5 @@ module se.iths.plugin {
     requires java.xml.bind;
     opens se.iths.plugin.model to org.hibernate.orm.core;
 
-    provides IOhandler with DatabaseIMPL, FileIMPL;
+    provides IoHandler with DatebaseImpl, FileImpl;
 }

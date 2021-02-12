@@ -1,16 +1,16 @@
 package se.iths.plugin;
 
 import se.iths.plugin.model.Contact;
-import se.iths.plugin.model.ContactDaoImpl;
-import se.iths.spi.IOhandler;
+import se.iths.plugin.dao.ContactDao;
+import se.iths.spi.IoHandler;
 
-public class DatabaseIMPL implements IOhandler {
+public class DatebaseImpl implements IoHandler {
 
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 
 		Contact contact = new Contact();
-		ContactDaoImpl contactDao = new ContactDaoImpl();
+		ContactDao contactDao = new ContactDao();
 
 		if (requestPath.contains("/findcontact")) {
 			contact = contactDao.findById(extractContactId(requestPath));

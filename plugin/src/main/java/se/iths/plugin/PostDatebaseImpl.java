@@ -1,14 +1,14 @@
 package se.iths.plugin;
 
 import se.iths.plugin.model.Contact;
-import se.iths.plugin.model.ContactDaoImpl;
-import se.iths.spi.IOhandler;
+import se.iths.plugin.dao.ContactDao;
+import se.iths.spi.IoHandler;
 
-public class PostDatabaseIMPL extends DatabaseIMPL implements IOhandler {
+public class PostDatebaseImpl extends DatebaseImpl implements IoHandler {
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 
-		ContactDaoImpl contactDao = new ContactDaoImpl();
+		ContactDao contactDao = new ContactDao();
 
 		String firstName = extractFirstName(requestBody);
 		String lastName = extractLastName(requestBody);

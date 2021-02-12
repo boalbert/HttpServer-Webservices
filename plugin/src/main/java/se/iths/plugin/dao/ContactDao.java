@@ -1,11 +1,13 @@
-package se.iths.plugin.model;
+package se.iths.plugin.dao;
+
+import se.iths.plugin.model.Contact;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class ContactDaoImpl {
+public class ContactDao {
 
 	EntityManagerFactory emf = Persistence
 			.createEntityManagerFactory("ContactUnit");

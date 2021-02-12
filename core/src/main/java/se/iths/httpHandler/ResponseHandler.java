@@ -15,9 +15,9 @@ public class ResponseHandler {
 	public void handleResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
 		var bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
 
-		HttpResponse httpResponse = createHttpResponse(content,httpRequest);
+		HttpResponse httpResponse = createHttpResponse(content, httpRequest);
 
-		sendHttpResponse(httpResponse,bufferedOutputStream);
+		sendHttpResponse(httpResponse, bufferedOutputStream);
 
 		socket.close();
 	}

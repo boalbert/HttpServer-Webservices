@@ -1,12 +1,11 @@
 package se.iths.httpHandler;
 
 import se.iths.model.HttpRequest;
-import se.iths.plugin.DatabaseIMPL;
-import se.iths.plugin.FileIMPL;
-import se.iths.plugin.PostDatabaseIMPL;
-import se.iths.spi.IOhandler;
+import se.iths.plugin.DatebaseImpl;
+import se.iths.plugin.FileImpl;
+import se.iths.plugin.PostDatebaseImpl;
+import se.iths.spi.IoHandler;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.HashMap;
@@ -20,10 +19,10 @@ public class ConnectionHandler {
 			InputStream inputStream = socket.getInputStream();
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
-			HashMap <String,IOhandler> routes = setURLRoutes(httpRequest);
-			PluginHandler pluginHandler = new PluginHandler(routes,httpRequest);
+			HashMap <String, IoHandler> routes = setURLRoutes(httpRequest);
+			PluginHandler pluginHandler = new PluginHandler(routes, httpRequest);
 
-			byte [] content = pluginHandler.URLHandler(httpRequest);
+			byte[] content = pluginHandler.URLHandler(httpRequest);
 
 			ResponseHandler responseHandler = new ResponseHandler();
 			responseHandler.handleResponse(content,socket, httpRequest);
@@ -35,20 +34,19 @@ public class ConnectionHandler {
 		}
 	}
 
-	private static HashMap <String, IOhandler> setURLRoutes(HttpRequest httpRequest) {
+	private static HashMap <String, IoHandler> setURLRoutes(HttpRequest httpRequest) {
 
-		Map<String, IOhandler> routes = new HashMap<>();
+		Map<String, IoHandler> routes = new HashMap<>();
 
-		routes.put("/create", new DatabaseIMPL());
-		routes.put("/postcontact", new PostDatabaseIMPL());
-		routes.put("/", new FileIMPL());
+		routes.put("/create", new DatebaseImpl());
+		routes.put("/postcontact", new PostDatebaseImpl());
+		routes.put("/", new FileImpl());
 
 		if (httpRequest.getRequestPath().contains("/findcontact/")) {
-			routes.put(httpRequest.getRequestPath(), new DatabaseIMPL());
+			routes.put(httpRequest.getRequestPath(), new DatebaseImpl());
 		} else if (httpRequest.getRequestPath().contains(".")) {
-			routes.put(httpRequest.getRequestPath(), new FileIMPL());
+			routes.put(httpRequest.getRequestPath(), new FileImpl());
 		}
-		return (HashMap<String, IOhandler>) routes;
+		return (HashMap<String, IoHandler>) routes;
 	}
-
 }

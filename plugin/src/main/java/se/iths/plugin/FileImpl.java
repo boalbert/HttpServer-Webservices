@@ -1,6 +1,6 @@
 package se.iths.plugin;
 
-import se.iths.spi.IOhandler;
+import se.iths.spi.IoHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public class FileIMPL implements IOhandler {
+public class FileImpl implements IoHandler {
 
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {

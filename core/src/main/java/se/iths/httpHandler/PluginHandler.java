@@ -1,7 +1,7 @@
 package se.iths.httpHandler;
 
 import se.iths.model.HttpRequest;
-import se.iths.spi.IOhandler;
+import se.iths.spi.IoHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +9,10 @@ import java.util.Map;
 public class PluginHandler {
 
 
-    private Map<String, IOhandler> routes = new HashMap<>();
+    private Map<String, IoHandler> routes = new HashMap<>();
     private HttpRequest httpRequest;
 
-    public PluginHandler(Map<String, IOhandler> routes, HttpRequest httpRequest) {
+    public PluginHandler(Map<String, IoHandler> routes, HttpRequest httpRequest) {
         this.routes = routes;
         this.httpRequest = httpRequest;
     }
@@ -24,7 +24,7 @@ public class PluginHandler {
         String requestedBody = httpRequest.getRequestBody();
         String requestedMethod = httpRequest.getRequestMethod();
 
-        IOhandler handler = routes.get(url);
+        IoHandler handler = routes.get(url);
         byte[] file;
 
         if (handler != null) {
@@ -41,6 +41,4 @@ public class PluginHandler {
 
         return file;
     }
-
-
 }

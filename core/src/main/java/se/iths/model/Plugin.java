@@ -1,9 +1,5 @@
 package se.iths.model;
 
-import se.iths.spi.IOhandler;
-
-import java.util.ServiceLoader;
-
 //Behöver man en sån class eller gör Maven detta automatiskt?
 public class Plugin {
 
