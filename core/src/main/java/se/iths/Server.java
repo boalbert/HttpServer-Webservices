@@ -20,17 +20,6 @@ public class Server {
 
 		ExecutorService executorService = Executors.newCachedThreadPool();
 
-		ServiceLoader<IoHandler> loader = ServiceLoader.load(IoHandler.class);
-
-		for (IoHandler handler : loader) {
-			if( handler.getClass().getAnnotation(Adress.class).value().equals("/file") ) {
-				handler.urlHandler(); // (String requestPath, String requestBody, String requestMethod)
-			} else {
-				handler.getClass().getAnnotation(Adress.class).value().equals("/database");
-				handler.urlHandler();
-			}
-		}
-
 		try {
 			LOGGER.info(" * Server started on port 5050");
 

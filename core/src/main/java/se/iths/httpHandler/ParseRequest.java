@@ -13,7 +13,6 @@ public class ParseRequest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ParseRequest.class);
 
-
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
 
 		var bufferedReader = new BufferedReader(
@@ -41,6 +40,7 @@ public class ParseRequest {
 		return httpRequest;
 	}
 
+	
 	private StringBuilder getRequestHeader(BufferedReader bufferedReader) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
