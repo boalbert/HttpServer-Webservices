@@ -1,30 +1,36 @@
 package se.iths.plugin;
 
-import se.iths.plugin.model.Contact;
 import se.iths.plugin.dao.ContactDao;
-import se.iths.routing.Adress;
+import se.iths.plugin.model.Contact;
+import se.iths.routing.Route;
 import se.iths.spi.IoHandler;
 
-@Adress("/database")
-public class DatebaseImpl implements IoHandler {
+@Route(url = "/getcontact")
+public class GetContact implements IoHandler {
 
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 
-		Contact contact = new Contact();
+		Contact contact;
 		ContactDao contactDao = new ContactDao();
 
-		if (requestPath.contains("/findcontact")) {
+		if (requestPath.contains("/getjson")) {
 			contact = contactDao.findById(extractContactId(requestPath));
+			return returnJson(contact);
 		} else {
-			String firstName = extractFirstName(requestPath);
-			String lastName = extractLastName(requestPath);
-			contact.setFirstName(firstName);
-			contact.setLastName(lastName);
-			contactDao.createContact(contact);
+			contact = contactDao.findById(extractContactId(requestPath));
+			return returnHtml(contact);
 		}
+	}
 
-		//TODO Ändra till .json-format
+	private byte[] returnJson(Contact contact) {
+
+		byte[] file = ( //{ name: "John", age: 31, city: "New York" };
+				"{firstname: '" + contact.getFirstName() + "', lastname: '" + contact.getLastName() + "'}").getBytes();
+		return file;
+	}
+
+	private byte[] returnHtml(Contact contact) {
 		byte[] file = (
 
 				"<html><body>" +
@@ -66,15 +72,5 @@ public class DatebaseImpl implements IoHandler {
 		String lastName = nameString.substring(beforeLastName);
 
 		return lastName;
-	}
-
-	public Contact createContactFromUrl(String requestPath) {
-
-		Contact contact = new Contact();
-
-		contact.setFirstName(extractFirstName(requestPath));
-		contact.setLastName(extractLastName(requestPath));
-
-		return contact;
 	}
 }

@@ -1,29 +1,33 @@
 package se.iths.plugin;
 
-import se.iths.plugin.model.Contact;
 import se.iths.plugin.dao.ContactDao;
-import se.iths.routing.Adress;
+import se.iths.plugin.model.Contact;
+import se.iths.routing.Route;
 import se.iths.spi.IoHandler;
 
-@Adress("/postdatabase")
-public class PostDatebaseImpl extends DatebaseImpl implements IoHandler {
+@Route(url = "/insertcontactviaget")
+public class GetContactInsert extends GetContact implements IoHandler {
+
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 
 		ContactDao contactDao = new ContactDao();
 
-		String firstName = extractFirstName(requestBody);
-		String lastName = extractLastName(requestBody);
+		String firstName = extractFirstName(requestPath);
+		String lastName = extractLastName(requestPath);
 
-		Contact contact = new Contact(firstName,lastName);
-
+		Contact contact = new Contact(firstName, lastName);
 		contactDao.createContact(contact);
 
-		//TODO Ändra till .json-format
+		return returnHtml(contact);
+	}
+
+	private byte[] returnHtml(Contact contact) {
+
 		byte[] file = (
 
 				"<html><body>" +
-						"<h1>Inserted via POST</h1>" +
+						"<h1>Contact Info</h1>" +
 						"<p>Firstname: " + contact.getFirstName() + "</p>" +
 						"<p>Lastname: " + contact.getLastName() + "</p>" +
 						"</body></html>"

@@ -1,24 +1,28 @@
 package se.iths.plugin;
 
-import se.iths.routing.Adress;
+import se.iths.routing.Route;
 import se.iths.spi.IoHandler;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Adress("/file")
-public class FileImpl implements IoHandler {
+@Route(url = "/file")
+public class GetFile implements IoHandler {
 
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
+
 		var filePath = getFilePath(requestPath);
 		byte[] file = new byte[0];
 
 		try {
-			file = Files.readAllBytes(filePath);
+			if (Files.exists(filePath)) {
+				file = Files.readAllBytes(filePath);
+			} else {
+				file = Files.readAllBytes(getFilePath("404.html"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -29,9 +33,9 @@ public class FileImpl implements IoHandler {
 	private Path getFilePath(String requestPath) {
 		String root = System.getProperty("user.home")
 
-				+ File.separator + "Documents"
-				+ File.separator + "Webservices"
-				+ File.separator;
+				+ java.io.File.separator + "Documents"
+				+ java.io.File.separator + "Webservices"
+				+ java.io.File.separator;
 
 		if ("/".equals(requestPath)) {
 			requestPath = "index.html";

@@ -1,7 +1,5 @@
 package se.iths.httpHandler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.iths.model.HttpRequest;
 
 import java.io.BufferedReader;
@@ -10,8 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ParseRequest {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(ParseRequest.class);
 
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
 

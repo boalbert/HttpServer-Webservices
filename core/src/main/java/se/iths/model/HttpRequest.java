@@ -5,7 +5,6 @@ public class HttpRequest {
 	private String requestMethod;
 	private String requestPath;
 	private String requestBody;
-	// Map / Array med url-parametrar
 
 	public HttpRequest() {
 	}

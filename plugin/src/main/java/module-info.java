@@ -1,5 +1,7 @@
-import se.iths.plugin.DatebaseImpl;
-import se.iths.plugin.FileImpl;
+import se.iths.plugin.GetContact;
+import se.iths.plugin.GetFile;
+import se.iths.plugin.GetContactInsert;
+import se.iths.plugin.PostContact;
 import se.iths.spi.IoHandler;
 
 module se.iths.plugin {
@@ -12,5 +14,5 @@ module se.iths.plugin {
     requires java.xml.bind;
     opens se.iths.plugin.model to org.hibernate.orm.core;
 
-    provides IoHandler with DatebaseImpl, FileImpl;
+    provides IoHandler with GetContact, GetFile, PostContact, GetContactInsert;
 }
