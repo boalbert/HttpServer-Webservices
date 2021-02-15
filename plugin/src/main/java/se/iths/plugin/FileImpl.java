@@ -1,5 +1,6 @@
 package se.iths.plugin;
 
+import se.iths.routing.Adress;
 import se.iths.spi.IoHandler;
 
 import java.io.File;
@@ -8,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+@Adress("/file")
 public class FileImpl implements IoHandler {
 
 	@Override

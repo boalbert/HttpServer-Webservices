@@ -2,8 +2,10 @@ package se.iths.plugin;
 
 import se.iths.plugin.model.Contact;
 import se.iths.plugin.dao.ContactDao;
+import se.iths.routing.Adress;
 import se.iths.spi.IoHandler;
 
+@Adress("/database")
 public class DatebaseImpl implements IoHandler {
 
 	@Override

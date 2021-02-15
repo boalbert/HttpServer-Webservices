@@ -2,8 +2,10 @@ package se.iths.plugin;
 
 import se.iths.plugin.model.Contact;
 import se.iths.plugin.dao.ContactDao;
+import se.iths.routing.Adress;
 import se.iths.spi.IoHandler;
 
+@Adress("/postdatabase")
 public class PostDatebaseImpl extends DatebaseImpl implements IoHandler {
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
