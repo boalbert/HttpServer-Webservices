@@ -1,9 +1,9 @@
 package se.iths.httpHandler;
 
 import se.iths.model.HttpRequest;
-import se.iths.plugin.DatebaseImpl;
-import se.iths.plugin.FileImpl;
-import se.iths.plugin.PostDatebaseImpl;
+//import se.iths.plugin.DatebaseImpl;
+//import se.iths.plugin.FileImpl;
+//import se.iths.plugin.PostDatebaseImpl;
 import se.iths.spi.IoHandler;
 
 import java.io.InputStream;
@@ -15,6 +15,9 @@ public class ConnectionHandler {
 	
 	public static void handleConnection(Socket socket) {
 		try {
+
+			Map<String, String> routing = new HashMap<>();
+			routing.p
 
 			InputStream inputStream = socket.getInputStream();
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
@@ -34,19 +37,19 @@ public class ConnectionHandler {
 		}
 	}
 
-	private static HashMap <String, IoHandler> setURLRoutes(HttpRequest httpRequest) {
-
-		Map<String, IoHandler> routes = new HashMap<>();
-
-		routes.put("/create", new DatebaseImpl());
-		routes.put("/postcontact", new PostDatebaseImpl());
-		routes.put("/", new FileImpl());
-
-		if (httpRequest.getRequestPath().contains("/findcontact/")) {
-			routes.put(httpRequest.getRequestPath(), new DatebaseImpl());
-		} else if (httpRequest.getRequestPath().contains(".")) {
-			routes.put(httpRequest.getRequestPath(), new FileImpl());
-		}
-		return (HashMap<String, IoHandler>) routes;
-	}
+//	private static HashMap <String, IoHandler> setURLRoutes(HttpRequest httpRequest) {
+//
+//		Map<String, IoHandler> routes = new HashMap<>();
+//
+//		routes.put("/create", new DatebaseImpl());
+//		routes.put("/postcontact", new PostDatebaseImpl());
+//		routes.put("/", new FileImpl());
+//
+//		if (httpRequest.getRequestPath().contains("/findcontact/")) {
+//			routes.put(httpRequest.getRequestPath(), new DatebaseImpl());
+//		} else if (httpRequest.getRequestPath().contains(".")) {
+//			routes.put(httpRequest.getRequestPath(), new FileImpl());
+//		}
+//		return (HashMap<String, IoHandler>) routes;
+//	}
 }
