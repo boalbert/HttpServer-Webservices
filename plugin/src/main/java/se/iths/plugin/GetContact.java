@@ -1,26 +1,48 @@
 package se.iths.plugin;
 
 import se.iths.plugin.dao.ContactDao;
-import se.iths.plugin.dao.JsonConverter;
 import se.iths.plugin.model.Contact;
+import se.iths.plugin.util.JsonConverter;
 import se.iths.routing.Route;
 import se.iths.spi.IoHandler;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Route(url = "/getcontact")
 public class GetContact implements IoHandler {
 
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
-
-		Contact contact;
 		ContactDao contactDao = new ContactDao();
 
-		contact = contactDao.findById(extractContactId(requestPath));
-		return returnJson(contact);
+		if (requestPath.equals("/getcontact/")) {
+			return returnListAsJson(contactDao.findAll());
+		} else {
 
+			List<Contact> list = contactDao.findContactById(extractContactId(requestPath));
+
+			return returnListAsJson(list);
+
+			// TODO Keep it as list or return null object?
+			//			return returnObjectAsJson(contactDao.findById(extractContactId(requestPath)));
+		}
+	}
+
+	public byte[] returnListAsJson(List<Contact> list) {
+		return new JsonConverter().convertListToJson(list);
+	}
+
+	private int extractContactId(String contactString) {
+
+		int indexAt = contactString.indexOf("/", 2) + 1;
+
+		return Integer.parseInt(contactString.substring(indexAt));
+	}
+
+	public byte[] returnObjectAsJson(Contact contact) {
+		return new JsonConverter().convertObjectToJson(contact);
 	}
 
 	public String extractFirstName(String nameString) {
@@ -43,16 +65,5 @@ public class GetContact implements IoHandler {
 		String lastName = nameString.substring(beforeLastName);
 
 		return URLDecoder.decode(lastName, StandardCharsets.ISO_8859_1);
-	}
-
-	private int extractContactId(String contactString) {
-
-		int indexAt = contactString.indexOf("/", 2) + 1;
-
-		return Integer.parseInt(contactString.substring(indexAt));
-	}
-
-	public byte[] returnJson(Contact contact) {
-		return new JsonConverter().convertToJson(contact);
 	}
 }

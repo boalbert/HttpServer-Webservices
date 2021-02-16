@@ -20,6 +20,6 @@ public class PostContact extends GetContact implements IoHandler {
 
 		contactDao.createContact(contact);
 
-		return returnJson(contact);
+		return returnObjectAsJson(contact);
 	}
 }

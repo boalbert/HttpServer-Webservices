@@ -19,7 +19,6 @@ public class GetContactInsert extends GetContact implements IoHandler {
 		Contact contact = new Contact(firstName, lastName);
 		contactDao.createContact(contact);
 
-
-		return returnJson(contact);
+		return returnObjectAsJson(contact);
 	}
 }
