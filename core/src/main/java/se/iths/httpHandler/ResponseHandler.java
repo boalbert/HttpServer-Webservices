@@ -3,10 +3,13 @@ package se.iths.httpHandler;
 import se.iths.model.HttpRequest;
 import se.iths.model.HttpResponse;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class ResponseHandler {
 
@@ -32,15 +35,22 @@ public class ResponseHandler {
 		output.close();
 	}
 
-	private HttpResponse createHttpResponse(byte[] content, HttpRequest httpRequest) {
-		return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", guessContentTypeFromUrl(httpRequest.getRequestPath()),content.length, content);
+	private HttpResponse createHttpResponse(byte[] content, HttpRequest httpRequest) throws IOException {
+
+		if(content.length > 0) {
+			return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", guessContentTypeFromUrl(httpRequest.getRequestPath()),content.length, content);
+		} else {
+			File file404 = new File("core/src/main/resources/404.html");
+			content = Files.readAllBytes(Path.of(file404.getAbsolutePath()));
+			return new HttpResponse(httpRequest.getRequestMethod(), "404", guessContentTypeFromUrl(httpRequest.getRequestPath()), content.length, content);
+		}
 	}
 
 	private String guessContentTypeFromUrl(String requestPath) {
 
 		String mimeType = URLConnection.guessContentTypeFromName(requestPath);
 
-		if(requestPath.contains("json")) {
+		if(requestPath.contains("getcontact")) {
 			mimeType = "application/json";
 		}
 

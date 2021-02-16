@@ -15,13 +15,9 @@ public class GetContact implements IoHandler {
 		Contact contact;
 		ContactDao contactDao = new ContactDao();
 
-		if (requestPath.contains("/getjson")) {
-			contact = contactDao.findById(extractContactId(requestPath));
-			return returnJson(contact);
-		} else {
-			contact = contactDao.findById(extractContactId(requestPath));
-			return returnHtml(contact);
-		}
+		contact = contactDao.findById(extractContactId(requestPath));
+		return returnJson(contact);
+
 	}
 
 	private int extractContactId(String contactString) {
@@ -33,18 +29,6 @@ public class GetContact implements IoHandler {
 
 	private byte[] returnJson(Contact contact) {
 		return new JsonConverter().convertToJson(contact);
-	}
-
-	private byte[] returnHtml(Contact contact) {
-
-		return (
-				"<html><body>" +
-						"<h1>Contact Info</h1>" +
-						"<p>Firstname: " + contact.getFirstName() + "</p>" +
-						"<p>Lastname: " + contact.getLastName() + "</p>" +
-						"</body></html>"
-
-		).getBytes();
 	}
 
 	public String extractFirstName(String nameString) {

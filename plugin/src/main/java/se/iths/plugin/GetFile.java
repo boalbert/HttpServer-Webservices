@@ -20,8 +20,6 @@ public class GetFile implements IoHandler {
 		try {
 			if (Files.exists(filePath)) {
 				file = Files.readAllBytes(filePath);
-			} else {
-				file = Files.readAllBytes(getFilePath("404.html"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

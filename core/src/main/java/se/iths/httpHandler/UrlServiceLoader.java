@@ -29,18 +29,15 @@ public class UrlServiceLoader {
 		if (requestPath.contains("/getcontact")) {
 			return routes.get("/getcontact");
 
-		} else if (requestPath.contains("/getjson")) {
-			return routes.get("/getcontact");
-
 		} else if (requestPath.contains("/insertcontactviaget")) {
 			return routes.get("/insertcontactviaget");
 
 		} else if (requestPath.contains("/postcontact")) {
 			return routes.get("/postcontact");
+
 		} else {
 			return routes.get("/file");
 
 		}
-
 	}
 }
