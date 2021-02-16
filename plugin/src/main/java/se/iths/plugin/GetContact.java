@@ -1,6 +1,7 @@
 package se.iths.plugin;
 
 import se.iths.plugin.dao.ContactDao;
+import se.iths.plugin.dao.JsonConverter;
 import se.iths.plugin.model.Contact;
 import se.iths.routing.Route;
 import se.iths.spi.IoHandler;
@@ -23,14 +24,20 @@ public class GetContact implements IoHandler {
 		}
 	}
 
+	private int extractContactId(String contactString) {
+
+		int indexAt = contactString.indexOf("/", 2) + 1;
+
+		return Integer.parseInt(contactString.substring(indexAt));
+	}
+
 	private byte[] returnJson(Contact contact) {
-		return ("{firstname: '" + contact.getFirstName() + "', lastname: '" + contact.getLastName() + "'}").getBytes();
+		return new JsonConverter().convertToJson(contact);
 	}
 
 	private byte[] returnHtml(Contact contact) {
 
 		return (
-
 				"<html><body>" +
 						"<h1>Contact Info</h1>" +
 						"<p>Firstname: " + contact.getFirstName() + "</p>" +
@@ -40,33 +47,21 @@ public class GetContact implements IoHandler {
 		).getBytes();
 	}
 
-	private static int extractContactId(String contactString) {
-
-		int indexAt = contactString.indexOf("/", 2) + 1;
-		int contactId = Integer.parseInt(contactString.substring(indexAt));
-
-		return contactId;
-	}
-
-	public static String extractFirstName(String nameString) {
+	public String extractFirstName(String nameString) {
 
 		int beforeFirstName = nameString.indexOf("=") + 1;
 
 		int afterFirstName = nameString.indexOf("&");
 
-		String firstName = nameString.substring(beforeFirstName, afterFirstName);
-
-		return firstName;
+		return nameString.substring(beforeFirstName, afterFirstName);
 	}
 
-	public static String extractLastName(String nameString) {
+	public String extractLastName(String nameString) {
 
 		int afterFirstName = nameString.indexOf("&");
 
 		int beforeLastName = nameString.indexOf("=", afterFirstName) + 1;
 
-		String lastName = nameString.substring(beforeLastName);
-
-		return lastName;
+		return nameString.substring(beforeLastName);
 	}
 }

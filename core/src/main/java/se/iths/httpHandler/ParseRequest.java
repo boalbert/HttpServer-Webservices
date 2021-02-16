@@ -39,7 +39,6 @@ public class ParseRequest {
 		StringBuilder builder = new StringBuilder();
 		String line;
 
-
 		do {
 			line = bufferedReader.readLine();
 			if (Objects.equals(line, "")) {

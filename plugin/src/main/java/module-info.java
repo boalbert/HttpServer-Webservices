@@ -12,7 +12,8 @@ module se.iths.plugin {
     requires net.bytebuddy;
     requires com.fasterxml.classmate;
     requires java.xml.bind;
-    opens se.iths.plugin.model to org.hibernate.orm.core;
+    requires com.google.gson;
+    opens se.iths.plugin.model to org.hibernate.orm.core, com.google.gson;
 
     provides IoHandler with GetContact, GetFile, PostContact, GetContactInsert;
 }

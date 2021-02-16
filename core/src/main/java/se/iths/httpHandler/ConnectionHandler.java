@@ -17,7 +17,6 @@ public class ConnectionHandler {
 			InputStream inputStream = socket.getInputStream();
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
-
 			// Get handler
 			IoHandler handler = UrlServiceLoader.findWhatImplementationToUse(httpRequest.getRequestPath());
 
