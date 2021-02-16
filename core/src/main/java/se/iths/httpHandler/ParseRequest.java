@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Objects;
 
 public class ParseRequest {
 
@@ -18,6 +17,7 @@ public class ParseRequest {
 		var httpRequest = new HttpRequest();
 
 		StringBuilder head = getRequestHeader(bufferedReader);
+
 		String[] requestRows = readRequestHeader(head);
 
 		String[] firstRow = getFirstRowInHeader(requestRows);
@@ -37,19 +37,15 @@ public class ParseRequest {
 	private static StringBuilder getRequestHeader(BufferedReader bufferedReader) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
-		String line;
 
-		// TODO FIX!
-		do {
-			line = bufferedReader.readLine();
+		while (true) {
 
-			if (line.equals("")) {
+			String line = bufferedReader.readLine();
+			builder.append(line).append("\r\n");
+			if (line == null || line.isEmpty()) {
 				break;
 			}
-
-			builder.append(line).append("\r\n");
-
-		} while (true);
+		}
 
 		return builder;
 	}

@@ -13,8 +13,8 @@ public class ConnectionHandler {
 
 		ResponseHandler responseHandler = new ResponseHandler();
 
-		try {
-			InputStream inputStream = socket.getInputStream();
+		try (InputStream inputStream = socket.getInputStream()) {
+
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
 			// Get handler
@@ -24,8 +24,6 @@ public class ConnectionHandler {
 			byte[] content = handler.urlHandler(httpRequest.getRequestPath(), httpRequest.getRequestBody(), httpRequest.getRequestMethod());
 
 			responseHandler.handleResponse(content, socket, httpRequest);
-
-			socket.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
