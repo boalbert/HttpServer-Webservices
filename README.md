@@ -9,7 +9,7 @@ Vi har okså flera url som ger oss möjlighet att skicka in information till web
 
 Inskickningen av information hanteras med hjälp av en html formulär.
 
-<u>**Specifikation**</u>
+ ## Specifikation
 
 Alla förfrågan hanteras med hjålp av plugins som hantera olika typa av filer och data till databasen.  Plugins laddas in dynamiskt och routing har vi löst med med hjälp av annotations i runtime.
 
@@ -19,7 +19,7 @@ Alla pluginklasser extender från Interfacet IOHanlder som ligger i modul spi.
 
 
 
-**<u>Installation</u>**
+## Installation
 
 **Klona repository**
 
@@ -27,9 +27,11 @@ Klona repository och kör programmet från terminalen eller i en IDE (till ex. I
 
 1. `$ git clone https://github.com/boalbert/HttpServerWebservices.git`
 
-2. Compile och kör programet med Maven
+2. Compile och kör programet med Maven eller via terminalen
 
-<u>**Licens**</u>
+OBS: implementation av databasen görs i persistence.xml filen.
+
+## Licens
 
 [MIT License](
 
