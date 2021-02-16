@@ -42,9 +42,11 @@ public class ParseRequest {
 		// TODO FIX!
 		do {
 			line = bufferedReader.readLine();
+
 			if (line.equals("")) {
 				break;
 			}
+
 			builder.append(line).append("\r\n");
 
 		} while (true);
