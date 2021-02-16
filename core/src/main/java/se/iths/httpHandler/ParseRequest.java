@@ -52,17 +52,9 @@ public class ParseRequest {
 
 	private String[] readRequestHeader(StringBuilder builder) {
 
-		// Splitting the request into individual lines
 		String wholeRequest = builder.toString();
 
-		// Splitting them where there is a linebreak, "\r\n"
-		String[] requestRows = wholeRequest.split("\r\n");
-
-		return requestRows;
-
-		// Splitting the first row in three parts, split where there is a whitespace, " "
-		// "[GET, /path, HTTP/1.1]
-
+		return wholeRequest.split("\r\n");
 	}
 
 	private String[] getFirstRowInHeader(String[] header) {
