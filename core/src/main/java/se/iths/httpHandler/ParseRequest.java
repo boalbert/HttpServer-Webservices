@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class ParseRequest {
 
@@ -27,25 +28,21 @@ public class ParseRequest {
 			httpRequest.setRequestBody(requestBody);
 		}
 
-		String requestMethod = firstRow[0];
-		String requestPath = firstRow[1];
-
-		httpRequest.setRequestMethod(requestMethod);
-		httpRequest.setRequestPath(requestPath);
+		httpRequest.setRequestMethod(firstRow[0]);
+		httpRequest.setRequestPath(firstRow[1]);
 
 		return httpRequest;
 	}
 
-	
-	private StringBuilder getRequestHeader(BufferedReader bufferedReader) throws IOException {
+	private static StringBuilder getRequestHeader(BufferedReader bufferedReader) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
 		String line;
 
-		// Break när vi har content length == hela contentlength
+
 		do {
 			line = bufferedReader.readLine();
-			if (line.equals("")) {
+			if (Objects.equals(line, "")) {
 				break;
 			}
 			builder.append(line).append("\r\n");
@@ -72,9 +69,7 @@ public class ParseRequest {
 
 	private String[] getFirstRowInHeader(String[] header) {
 
-		String[] firstrow = header[0].split(" ");
-
-		return firstrow;
+		return header[0].split(" ");
 	}
 
 	private int getContentLength(String[] requestRows) {
@@ -100,10 +95,6 @@ public class ParseRequest {
 
 		bufferedReader.read(buffer, 0, buffer.length);
 
-		String postData = "";
-
-		postData = new String(buffer, 0, buffer.length);
-
-		return postData;
+		return new String(buffer, 0, buffer.length);
 	}
 }

@@ -9,7 +9,7 @@ import javax.persistence.Persistence;
 public class ContactDao {
 
 
-	EntityManagerFactory emf = Persistence
+	private final EntityManagerFactory emf = Persistence
 			.createEntityManagerFactory("ContactUnit");
 
 	public Contact findById(int id) {

@@ -34,6 +34,7 @@ public class ResponseHandler {
 	}
 
 	private HttpResponse createHttpResponse(byte[] content, HttpRequest httpRequest) {
+
 		HttpResponse httpResponse = new HttpResponse();
 		httpResponse.setStatus("200 OK");
 		httpResponse.setContentType(guessContentTypeFromUrl(httpRequest.getRequestPath()));

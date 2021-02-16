@@ -24,14 +24,12 @@ public class GetContact implements IoHandler {
 	}
 
 	private byte[] returnJson(Contact contact) {
-
-		byte[] file = ( //{ name: "John", age: 31, city: "New York" };
-				"{firstname: '" + contact.getFirstName() + "', lastname: '" + contact.getLastName() + "'}").getBytes();
-		return file;
+		return ("{firstname: '" + contact.getFirstName() + "', lastname: '" + contact.getLastName() + "'}").getBytes();
 	}
 
 	private byte[] returnHtml(Contact contact) {
-		byte[] file = (
+
+		return (
 
 				"<html><body>" +
 						"<h1>Contact Info</h1>" +
@@ -40,11 +38,9 @@ public class GetContact implements IoHandler {
 						"</body></html>"
 
 		).getBytes();
-
-		return file;
 	}
 
-	public static int extractContactId(String contactString) {
+	private static int extractContactId(String contactString) {
 
 		int indexAt = contactString.indexOf("/", 2) + 1;
 		int contactId = Integer.parseInt(contactString.substring(indexAt));
