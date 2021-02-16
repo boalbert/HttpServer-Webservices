@@ -9,6 +9,12 @@ import java.io.InputStreamReader;
 
 public class ParseRequest {
 
+	/***
+	 * Creates a request object by parsing the incoming request (input stream)
+	 * @param inputStream (BufferedReader)
+	 * @return Http request as object with requested params
+	 * @throws IOException
+	 */
 	public HttpRequest constructRequest(InputStream inputStream) throws IOException {
 
 		var bufferedReader = new BufferedReader(
@@ -34,6 +40,12 @@ public class ParseRequest {
 		return httpRequest;
 	}
 
+	/***
+	 * Returns the header of Http request as Stringbuilder
+	 * @param bufferedReader
+	 * @return Head of Http request as Stringbuilder
+	 * @throws IOException
+	 */
 	private static StringBuilder getRequestHeader(BufferedReader bufferedReader) throws IOException {
 
 		StringBuilder builder = new StringBuilder();
@@ -50,6 +62,11 @@ public class ParseRequest {
 		return builder;
 	}
 
+	/***
+	 * Returns the header as String array by splitting the header at linebreak
+	 * @param builder
+	 * @return String array
+	 */
 	private String[] readRequestHeader(StringBuilder builder) {
 
 		String wholeRequest = builder.toString();
@@ -79,9 +96,17 @@ public class ParseRequest {
 		return Integer.parseInt(length);
 	}
 
-	private String getRequestBody(BufferedReader bufferedReader, int length) throws IOException {
+	/***
+	 * Returns the body of Http request as String
+	 * @param bufferedReader
+	 * @param contentlength of the body to determine how many bytes we need to read in
+	 * @return body as String
+	 * @throws IOException
+	 */
 
-		char[] buffer = new char[length];
+	private String getRequestBody(BufferedReader bufferedReader, int contentlength) throws IOException {
+
+		char[] buffer = new char[contentlength];
 
 		bufferedReader.read(buffer, 0, buffer.length);
 

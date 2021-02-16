@@ -13,8 +13,8 @@ import java.nio.file.Path;
 public class ResponseHandler {
 
 	/**
-	 * Constructs our httpResponse and send it out to the client via methods.
-	 * @param content server from our plugins (file or database query)
+	 * Constructs our httpResponse and send it out to the client via class methods.
+	 * @param content received from our plugins (file or database query)
 	 */
 	public void handleResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
 		var output = new PrintStream(socket.getOutputStream());
@@ -44,7 +44,7 @@ public class ResponseHandler {
 	/**
 	 * Sends the response to client.
 	 * @param httpResponse populated with all data needed for response.
-	 * @param output used for sending data to client, closed after sending data.
+	 * @param output (Printstream) used for sending the requested data to client; closes after sending data.
 	 */
 	private void sendHttpResponse(HttpResponse httpResponse, PrintStream output) throws IOException {
 		output.println(httpResponse.getStatus());
@@ -59,7 +59,7 @@ public class ResponseHandler {
 	}
 
 	/**
-	 * If the url points to a database action it gets set to json.
+	 * If the url points to a database action , the content type is set to Json.
 	 * Otherwise we check mimetype of the file.
 	 * @param requestPath to the file or database path
 	 * @return mimetype/content-type of the file / path
