@@ -14,31 +14,18 @@ import java.nio.file.Path;
 public class ResponseHandler {
 
 	public void handleResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
-		var printStream = new PrintStream(socket.getOutputStream());
+		var output = new PrintStream(socket.getOutputStream());
 
 		HttpResponse httpResponse = createHttpResponse(content, httpRequest);
 
-		sendHttpResponse(httpResponse, printStream);
+		sendHttpResponse(httpResponse, output);
 
-		socket.close();
-	}
-
-	private void sendHttpResponse(HttpResponse httpResponse, PrintStream output) throws IOException {
-		output.println(httpResponse.getStatus());
-		output.println("Content-Length: " + httpResponse.getContentLength());
-		output.println(httpResponse.getContentType());
-		output.println("");
-		if(!httpResponse.getMethod().equals("HEAD")) {
-			output.write(httpResponse.getContent());
-		}
-		output.flush();
-		output.close();
 	}
 
 	private HttpResponse createHttpResponse(byte[] content, HttpRequest httpRequest) throws IOException {
 
-		if(content.length > 0) {
-			return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", guessContentTypeFromUrl(httpRequest.getRequestPath()),content.length, content);
+		if (content.length > 0) {
+			return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", guessContentTypeFromUrl(httpRequest.getRequestPath()), content.length, content);
 		} else {
 			File file404 = new File("core/src/main/resources/404.html");
 			content = Files.readAllBytes(Path.of(file404.getAbsolutePath()));
@@ -46,11 +33,31 @@ public class ResponseHandler {
 		}
 	}
 
+	private void sendHttpResponse(HttpResponse httpResponse, PrintStream output) throws IOException {
+		output.println(httpResponse.getStatus());
+		output.println("Content-Length: " + httpResponse.getContentLength());
+		output.println(httpResponse.getContentType());
+		output.println("");
+		if (!httpResponse.getMethod().equals("HEAD")) {
+			output.write(httpResponse.getContent());
+		}
+		output.flush();
+		output.close();
+	}
+
 	private String guessContentTypeFromUrl(String requestPath) {
 
 		String mimeType = URLConnection.guessContentTypeFromName(requestPath);
 
-		if(requestPath.contains("getcontact")) {
+		if (requestPath.contains("getcontact")) {
+			mimeType = "application/json";
+		}
+
+		if (requestPath.contains("postcontact")) {
+			mimeType = "application/json";
+		}
+
+		if (requestPath.contains("insertcontactviaget")) {
 			mimeType = "application/json";
 		}
 

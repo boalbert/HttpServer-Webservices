@@ -20,12 +20,6 @@ public class PostContact extends GetContact implements IoHandler {
 
 		contactDao.createContact(contact);
 
-		return (
-				"<html><body>" +
-				"<h1>Inserted via POST</h1>" +
-				"<p>Firstname: " + contact.getFirstName() + "</p>" +
-				"<p>Lastname: " + contact.getLastName() + "</p>" +
-				"</body></html>"
-		).getBytes();
+		return returnJson(contact);
 	}
 }

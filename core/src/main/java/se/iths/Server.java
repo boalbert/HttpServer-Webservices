@@ -22,6 +22,7 @@ public class Server {
 				var socket = serverSocket.accept();
 
 				executorService.execute(() -> ConnectionHandler.handleConnection(socket));
+
 			}
 
 		} catch (IOException e) {

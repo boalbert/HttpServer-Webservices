@@ -19,17 +19,7 @@ public class GetContactInsert extends GetContact implements IoHandler {
 		Contact contact = new Contact(firstName, lastName);
 		contactDao.createContact(contact);
 
-		return returnHtml(contact);
-	}
 
-	private byte[] returnHtml(Contact contact) {
-
-		return (
-				"<html><body>" +
-				"<h1>Contact Info</h1>" +
-				"<p>Firstname: " + contact.getFirstName() + "</p>" +
-				"<p>Lastname: " + contact.getLastName() + "</p>" +
-				"</body></html>"
-		).getBytes();
+		return returnJson(contact);
 	}
 }

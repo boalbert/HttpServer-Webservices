@@ -6,6 +6,8 @@ import se.iths.plugin.model.Contact;
 import se.iths.routing.Route;
 import se.iths.spi.IoHandler;
 
+import java.nio.charset.StandardCharsets;
+
 @Route(url = "/getcontact")
 public class GetContact implements IoHandler {
 
@@ -27,25 +29,33 @@ public class GetContact implements IoHandler {
 		return Integer.parseInt(contactString.substring(indexAt));
 	}
 
-	private byte[] returnJson(Contact contact) {
+	public byte[] returnJson(Contact contact) {
 		return new JsonConverter().convertToJson(contact);
 	}
 
-	public String extractFirstName(String nameString) {
+	public static String extractFirstName(String nameString) {
 
 		int beforeFirstName = nameString.indexOf("=") + 1;
 
 		int afterFirstName = nameString.indexOf("&");
 
-		return nameString.substring(beforeFirstName, afterFirstName);
+		String firstName = nameString.substring(beforeFirstName, afterFirstName);
+
+		firstName = java.net.URLDecoder.decode(firstName, StandardCharsets.ISO_8859_1);
+
+		return firstName;
 	}
 
-	public String extractLastName(String nameString) {
+	public static String extractLastName(String nameString) {
 
 		int afterFirstName = nameString.indexOf("&");
 
 		int beforeLastName = nameString.indexOf("=", afterFirstName) + 1;
 
-		return nameString.substring(beforeLastName);
+		String lastName = nameString.substring(beforeLastName);
+
+		lastName = java.net.URLDecoder.decode(lastName, StandardCharsets.ISO_8859_1);
+
+		return lastName;
 	}
 }

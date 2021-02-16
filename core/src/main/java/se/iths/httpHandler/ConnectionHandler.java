@@ -25,6 +25,8 @@ public class ConnectionHandler {
 
 			responseHandler.handleResponse(content, socket, httpRequest);
 
+			socket.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
