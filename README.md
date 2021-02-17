@@ -30,8 +30,6 @@ Alla pluginklasser extender från Interfacet IOHanlder som ligger i modul spi.
 
 ## Installation
 
-**![Core](/Users/jannismuller/Core.png)Klona repository**
-
 Klona repository och kör programmet från terminalen eller i en IDE (till ex. Intellji). 
 
 1. `$ git clone https://github.com/boalbert/HttpServerWebservices.git`
