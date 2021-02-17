@@ -3,22 +3,22 @@
 
 I detta projektarbete byggde vi en Http server som en modulär applikation i Java. Servern kan hantera enklare GET,  HEAD och POST förfrågningar och kan serva statiska filer från disk samt bildformat med rätt content-type i svaret. 
 
-Servern är  multitrådad och kan hantera flera förfrågningar samtidigt.
+Servern är  multitrådad och kan hantera flera förfrågningar simultant.
 
-Vi har också flera url-sökväger  som ger oss möjlighet att skicka in information till webbservern via url parametrar tillsammans med GET och som body text tillsammans med POST förfrågan. Den inskickade informationen lagras i en MSQL-databas och kan skickas tillbaka som ett json dokument när det efterfrågas via en GET mot  URL "get/contact". 
+Vi har också flera url-sökväger som ger oss möjlighet att skicka in information till webbservern via url parametrar tillsammans med GET och som body text tillsammans med POST förfrågan. Den inskickade informationen lagras i en MSQL-databas och kan skickas tillbaka som ett json dokument när det efterfrågas via en GET mot URL "/contacts/". 
 
-Inskickningen av information hanteras med hjälp av en html formulär.
+Inskickningen av information hanteras med hjälp av ett HTML formulär.
 
  ## Specifikation
 
-Alla förfrågan hanteras med hjålp av plugins som hantera olika typa av filer och data till databasen.  Plugins laddas in dynamiskt och routing har vi löst med med hjälp av annotations i runtime.
+Alla förfrågningar hanteras med hjälp av plugins som hanterar olika typer av filer och data till databasen.  Plugins laddas in dynamiskt och routing har vi löst med med hjälp av annotations i runtime.
 
-Alla pluginklasser extender från Interfacet IOHanlder som ligger i modul spi.
+Alla pluginklasser extendas från Interfacet IoHandler som ligger i modul SPI.
 
-- `GetContact.java` hanteras GET request som hämtas data från databasen
-- `GetContactInsert.java` hanteres en insert till Databasen via GET
-- `GetFile.java` hanteras GET request för filer
-- `PostContact.java` hanteres en insert till Databasen via POST
+- `GetContact.java` hanterar GET request som hämtar data från databasen
+- `GetContactInsert.java` hanteres en insert till databasen via GET (Url-parametrar)
+- `GetFile.java` hanterar GET request för filer
+- `PostContact.java` hanterar insert till Databasen via POST
 
 <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnq02hla4aj30ku0d674k.jpg" alt="Skärmavbild 2021-02-16 kl. 20.34.37" style="zoom: 50%;" />
 
@@ -39,7 +39,10 @@ Klona repository och kör programmet från terminalen eller i en IDE (till ex. I
 
 1. `$ git clone https://github.com/boalbert/HttpServerWebservices.git`
 
-2. Compile och kör programet med Maven 
+2. Placera mapp 'Webservices' under `.../users/documents/Webservices`.
+   (Exempelvis: `C:\Users\fornamn.efternamn\Documents\Webservices`)
+   
+3. Compile och kör programmet med Maven 
 
 Implementation av databasen hanteras i persistence-filen.
 

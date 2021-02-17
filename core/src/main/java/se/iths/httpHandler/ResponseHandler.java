@@ -37,9 +37,7 @@ public class ResponseHandler {
 		if (content.length > 0) {
 			return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", findContentType(httpRequest.getRequestPath()), content);
 		} else {
-			File file404 = new File("core/src/main/resources/404.html");
-			content = Files.readAllBytes(Path.of(file404.getAbsolutePath()));
-			return new HttpResponse(httpRequest.getRequestMethod(), "404", "text/html", content);
+			return new HttpResponse(httpRequest.getRequestMethod(), "404", "text/html", Files.readAllBytes(Path.of("core/src/main/resources/404.html")));
 		}
 	}
 
