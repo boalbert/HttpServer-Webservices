@@ -39,7 +39,7 @@ Klona repository och kör programmet från terminalen eller i en IDE (till ex. I
 
 1. `$ git clone https://github.com/boalbert/HttpServerWebservices.git`
 
-2. Placera mapp 'Webservices' under `.../users/documents/Webservices`.
+2. Packa upp 'Webservices.zip' och filer under: `.../users/documents/Webservices`.
    (Exempelvis: `C:\Users\fornamn.efternamn\Documents\Webservices`)
    
 3. Compile och kör programmet med Maven 
