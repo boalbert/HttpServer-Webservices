@@ -33,8 +33,6 @@ public class ParseRequest {
 			String requestBody = getRequestBody(bufferedReader, contentLength);
 			httpRequest.setRequestBody(requestBody);
 		}
-		System.out.println("firstrow[0]: " + firstRow[0]);
-		System.out.println("firstrow[1]: " + firstRow[1]);
 		httpRequest.setRequestMethod(firstRow[0]);
 		httpRequest.setRequestPath(firstRow[1]);
 
