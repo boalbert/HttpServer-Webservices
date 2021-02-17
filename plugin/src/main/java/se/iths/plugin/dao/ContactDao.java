@@ -14,10 +14,8 @@ public class ContactDao {
 			.createEntityManagerFactory("ContactUnit");
 
 	public Contact findById(int id) {
-
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-
 		return em.find(Contact.class, id);
 	}
 
@@ -28,20 +26,10 @@ public class ContactDao {
 		em.getTransaction().commit();
 	}
 
-	public List<Contact> findAll()  {
+	public List<Contact> findAll() {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		List<Contact> list = em.createQuery("from Contact c", Contact.class)
-				.getResultList();
-		em.getTransaction().commit();
-		return list;
-	}
-
-	public List<Contact> findContactById(int id)  {
-		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
-		List<Contact> list = em.createQuery("from Contact c where c.id = :param1", Contact.class)
-				.setParameter("param1", id)
 				.getResultList();
 		em.getTransaction().commit();
 		return list;

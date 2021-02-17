@@ -19,7 +19,7 @@ public class ConnectionHandler {
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
 			// Get handler
-			IoHandler handler = UrlServiceLoader.findWhatImplementationToUse(httpRequest.getRequestPath());
+			IoHandler handler = UrlServiceLoader.findRoute(httpRequest.getRequestPath());
 
 			// Get content back from handler
 			byte[] content = handler.urlHandler(httpRequest.getRequestPath(), httpRequest.getRequestBody(), httpRequest.getRequestMethod());

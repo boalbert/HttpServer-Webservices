@@ -13,15 +13,21 @@ import java.util.List;
 @Route(url = "/contacts")
 public class GetContact implements IoHandler {
 
+	/**
+	 * Returns either a list of all contacts (/contacts/), or
+	 * a single contact (/contacts/id), or if contact is not found
+	 * an empty byte[], which ResponseHandler interprets as 404.
+	 */
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 		ContactDao contactDao = new ContactDao();
 
-		if (requestPath.equals("/contacts/")) {
-			return returnListAsJson(contactDao.findAll());
-		} else {
-			return returnListAsJson(contactDao.findContactById(extractContactId(requestPath)));
-		}
+		if (requestPath.equals("/contacts/"))
+			return returnListAsJson(contactDao.findAll()); // Return a list of all contacts
+		if (contactDao.findById(extractContactId(requestPath)) == null) // Return byte[0], responsehandler will return 404
+			return new byte[0];
+		return returnObjectAsJson(contactDao.findById(extractContactId(requestPath))); // Return list of contacts if id is specified
+
 	}
 
 	public byte[] returnListAsJson(List<Contact> list) {
