@@ -36,7 +36,7 @@ Klona repository och kör programmet från terminalen eller i en IDE (till ex. I
 
 2. Compile och kör programet med Maven 
 
-OBS: implementation av databasen görs i persistence.xml filen.
+Implementation av databasen hanteras i persistence-filen.
 
 ## Licens
 
