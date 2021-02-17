@@ -10,14 +10,14 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-@Route(url = "/getcontact")
+@Route(url = "/contacts")
 public class GetContact implements IoHandler {
 
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 		ContactDao contactDao = new ContactDao();
 
-		if (requestPath.equals("/getcontact/")) {
+		if (requestPath.equals("/contacts/")) {
 			return returnListAsJson(contactDao.findAll());
 		} else {
 

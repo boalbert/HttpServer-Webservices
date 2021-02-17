@@ -37,8 +37,8 @@ public class UrlServiceLoader {
 	 */
 	public static IoHandler findWhatImplementationToUse(String requestPath) {
 
-		if (requestPath.contains("/getcontact")) {
-			return routes.get("/getcontact");
+		if (requestPath.contains("/contacts")) {
+			return routes.get("/contacts");
 
 		} else if (requestPath.contains("/insertcontactviaget")) {
 			return routes.get("/insertcontactviaget");

@@ -68,7 +68,7 @@ public class ResponseHandler {
 
 		String mimeType = "";
 
-		if (requestPath.contains("/getcontact") || requestPath.contains("/postcontact") || requestPath.contains("/insertcontactviaget")) {
+		if (requestPath.contains("/contacts") || requestPath.contains("/postcontact") || requestPath.contains("/insertcontactviaget")) {
 			mimeType = "application/json";
 		} else {
 			Path path = Path.of(requestPath);
