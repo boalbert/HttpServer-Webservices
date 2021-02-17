@@ -31,7 +31,7 @@ Följande url-sökvägar är tillgängliga:
 
 ## ULM
 
-![UML.pdf](https://tva1.sinaimg.cn/large/008eGmZEgy1gnqkdezbroj30ye0u07qz.jpg)
+![UML](https://tva1.sinaimg.cn/large/008eGmZEgy1gnqu4oqjfgj312y0u0qoh.jpg)
 
 ## Installation
 
