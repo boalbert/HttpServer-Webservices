@@ -23,20 +23,24 @@ Alla pluginklasser extender från Interfacet IOHanlder som ligger i modul spi.
 <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnq02hla4aj30ku0d674k.jpg" alt="Skärmavbild 2021-02-16 kl. 20.34.37" style="zoom: 50%;" />
 
 
-*
+
+ULM
+
+![UML.pdf](https://tva1.sinaimg.cn/large/008eGmZEgy1gnqkdezbroj30ye0u07qz.jpg)
+
 ## Installation
 
-**Klona repository**
+**![Core](/Users/jannismuller/Core.png)Klona repository**
 
 Klona repository och kör programmet från terminalen eller i en IDE (till ex. Intellji). 
 
 1. `$ git clone https://github.com/boalbert/HttpServerWebservices.git`
 
-2. Compile och kör programet med Maven eller via terminalen
+2. Compile och kör programet med Maven 
 
 OBS: implementation av databasen görs i persistence.xml filen.
 
 ## Licens
 
-[MIT License](
+[MIT License](https://opensource.org/licenses/MIT)
 
