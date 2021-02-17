@@ -5,7 +5,7 @@ I detta projektarbete byggde vi en Http server som en modulär applikation i Jav
 
 Servern är  multitrådad och kan hantera flera förfrågningar samtidigt.
 
-Vi har okså flera url som ger oss möjlighet att skicka in information till webbservern via url parametrar tillsammans med GET och som body text tillsammans med POST förfrågan. Den inskickade informationen lagras i en MSQL-databas och kan skickas tillbaka som ett json dokument när det efterfrågas via en GET mot  URL "get/contact". 
+Vi har också flera url-sökväger  som ger oss möjlighet att skicka in information till webbservern via url parametrar tillsammans med GET och som body text tillsammans med POST förfrågan. Den inskickade informationen lagras i en MSQL-databas och kan skickas tillbaka som ett json dokument när det efterfrågas via en GET mot  URL "get/contact". 
 
 Inskickningen av information hanteras med hjälp av en html formulär.
 
@@ -22,7 +22,12 @@ Alla pluginklasser extender från Interfacet IOHanlder som ligger i modul spi.
 
 <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gnq02hla4aj30ku0d674k.jpg" alt="Skärmavbild 2021-02-16 kl. 20.34.37" style="zoom: 50%;" />
 
+Följande url-sökvägar är tillgängliga:
 
+- `/postviaget.html`: skapa kontakt i databas via GET-metod; kontakt returneras som Json objekt
+- `/postviapost.html`:  skapa kontakt i databas via POST-metod; kontakt returneras som Json objekt
+- `/contacts/`:  returnerar alla kontakter från databas som Json 
+- `/contacts/id`: returnerar respektive kontakt från databas som Json 
 
 ## ULM
 
