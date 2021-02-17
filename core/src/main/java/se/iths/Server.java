@@ -15,19 +15,17 @@ public class Server {
 		ExecutorService executorService = Executors.newCachedThreadPool();
 
 		try {
-
+			System.out.println(" * Server starting on port: 5050");
 			var serverSocket = new ServerSocket(5050);
 
 			while (true) {
 				var socket = serverSocket.accept();
-
 				executorService.execute(() -> ConnectionHandler.handleConnection(socket));
-
 			}
 
 		} catch (IOException e) {
+			System.out.println(" * Server error: " + e);
 			e.printStackTrace();
-
 		}
 	}
 }
