@@ -20,13 +20,7 @@ public class GetContact implements IoHandler {
 		if (requestPath.equals("/contacts/")) {
 			return returnListAsJson(contactDao.findAll());
 		} else {
-
-			List<Contact> list = contactDao.findContactById(extractContactId(requestPath));
-
-			return returnListAsJson(list);
-
-			// TODO Keep it as list or return null object?
-			//			return returnObjectAsJson(contactDao.findById(extractContactId(requestPath)));
+			return returnListAsJson(contactDao.findContactById(extractContactId(requestPath)));
 		}
 	}
 
