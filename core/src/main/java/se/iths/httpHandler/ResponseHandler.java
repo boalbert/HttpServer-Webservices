@@ -27,7 +27,7 @@ public class ResponseHandler {
 
 	/**
 	 * Populates our httpResponse object.
-	 *
+	 * 
 	 * @param content     from our IoHandlers. If it is 0 bytes we return a 404 httpResponse object.
 	 * @param httpRequest with requested information.
 	 * @return populated httpResponse.
