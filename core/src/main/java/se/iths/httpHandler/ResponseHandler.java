@@ -14,6 +14,7 @@ public class ResponseHandler {
 
 	/**
 	 * Constructs our httpResponse and send it out to the client via class methods.
+	 *
 	 * @param content received from our plugins (file or database query)
 	 */
 	public void handleResponse(byte[] content, Socket socket, HttpRequest httpRequest) throws Exception {
@@ -26,25 +27,27 @@ public class ResponseHandler {
 
 	/**
 	 * Populates our httpResponse object.
-	 * @param content from our IoHandlers. If it is 0 bytes we return a 404 httpResponse object.
+	 * 
+	 * @param content     from our IoHandlers. If it is 0 bytes we return a 404 httpResponse object.
 	 * @param httpRequest with requested information.
 	 * @return populated httpResponse.
 	 */
 	private HttpResponse createHttpResponse(byte[] content, HttpRequest httpRequest) throws IOException {
 
 		if (content.length > 0) {
-			return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", findContentType(httpRequest.getRequestPath()), content.length, content);
+			return new HttpResponse(httpRequest.getRequestMethod(), "200 OK", findContentType(httpRequest.getRequestPath()), content);
 		} else {
 			File file404 = new File("core/src/main/resources/404.html");
 			content = Files.readAllBytes(Path.of(file404.getAbsolutePath()));
-			return new HttpResponse(httpRequest.getRequestMethod(), "404", findContentType(httpRequest.getRequestPath()), content.length, content);
+			return new HttpResponse(httpRequest.getRequestMethod(), "404", "text/html", content);
 		}
 	}
 
 	/**
 	 * Sends the response to client.
+	 *
 	 * @param httpResponse populated with all data needed for response.
-	 * @param output (Printstream) used for sending the requested data to client; closes after sending data.
+	 * @param output       (Printstream) used for sending the requested data to client; closes after sending data.
 	 */
 	private void sendHttpResponse(HttpResponse httpResponse, PrintStream output) throws IOException {
 		output.println(httpResponse.getStatus());
@@ -61,20 +64,20 @@ public class ResponseHandler {
 	/**
 	 * If the url points to a database action , the content type is set to Json.
 	 * Otherwise we check mimetype of the file.
+	 *
 	 * @param requestPath to the file or database path
 	 * @return mimetype/content-type of the file / path
 	 */
 	private String findContentType(String requestPath) throws IOException {
 
-		String mimeType = "";
-
-		if (requestPath.contains("/getcontact") || requestPath.contains("/postcontact") || requestPath.contains("/insertcontactviaget")) {
-			mimeType = "application/json";
+		if (requestPath.contains("/contacts") || requestPath.contains("/postcontact") || requestPath.contains("/insertcontactviaget")) {
+			return "application/json";
 		} else {
+			if ("/".equals(requestPath)) {
+				requestPath = "index.html";
+			}
 			Path path = Path.of(requestPath);
-			mimeType = Files.probeContentType(path);
+			return Files.probeContentType(path);
 		}
-
-		return mimeType;
 	}
 }

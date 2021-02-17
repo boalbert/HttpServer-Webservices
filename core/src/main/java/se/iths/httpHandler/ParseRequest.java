@@ -33,7 +33,8 @@ public class ParseRequest {
 			String requestBody = getRequestBody(bufferedReader, contentLength);
 			httpRequest.setRequestBody(requestBody);
 		}
-
+		System.out.println("firstrow[0]: " + firstRow[0]);
+		System.out.println("firstrow[1]: " + firstRow[1]);
 		httpRequest.setRequestMethod(firstRow[0]);
 		httpRequest.setRequestPath(firstRow[1]);
 
@@ -81,19 +82,19 @@ public class ParseRequest {
 
 	private int getContentLength(String[] requestRows) {
 
-		int contentLengthIndex = 0;
+		int contentLengthRowIndex = 0;
 		for (int i = 0; i < requestRows.length; i++) {
 			if (requestRows[i].contains("Content-Length:")) {
-				contentLengthIndex = i;
+				contentLengthRowIndex = i;
 			}
 		}
-		String contentLengthAsText = requestRows[contentLengthIndex];
+		String contentLengthAsText = requestRows[contentLengthRowIndex];
 
-		String[] lengthArray = contentLengthAsText.split(" ");
+		String[] contentLengthRow = contentLengthAsText.split(" ");
 
-		String length = lengthArray[1];
+		String contentLength = contentLengthRow[1];
 
-		return Integer.parseInt(length);
+		return Integer.parseInt(contentLength);
 	}
 
 	/***
@@ -104,9 +105,9 @@ public class ParseRequest {
 	 * @throws IOException
 	 */
 
-	private String getRequestBody(BufferedReader bufferedReader, int contentlength) throws IOException {
+	private String getRequestBody(BufferedReader bufferedReader, int contentLength) throws IOException {
 
-		char[] buffer = new char[contentlength];
+		char[] buffer = new char[contentLength];
 
 		bufferedReader.read(buffer, 0, buffer.length);
 

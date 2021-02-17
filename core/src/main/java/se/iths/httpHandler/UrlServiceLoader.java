@@ -14,7 +14,7 @@ public class UrlServiceLoader {
 	/***
 	 * Method that loads all plugins (IOHandler), gets their URL route from their annotation at runtime
 	 * and saves the information (route, name of IOHandler) in a hashmap
- 	 * @return hashmap
+	 * @return hashmap
 	 */
 	private static Map<String, IoHandler> getRoutes() {
 
@@ -35,10 +35,10 @@ public class UrlServiceLoader {
 	 * @param requestPath from the HttpRequest object
 	 * @return designated handler for a specific request
 	 */
-	public static IoHandler findWhatImplementationToUse(String requestPath) {
+	public static IoHandler findRoute(String requestPath) {
 
-		if (requestPath.contains("/getcontact")) {
-			return routes.get("/getcontact");
+		if (requestPath.contains("/contacts")) {
+			return routes.get("/contacts");
 
 		} else if (requestPath.contains("/insertcontactviaget")) {
 			return routes.get("/insertcontactviaget");
@@ -48,7 +48,6 @@ public class UrlServiceLoader {
 
 		} else {
 			return routes.get("/file");
-
 		}
 	}
 }

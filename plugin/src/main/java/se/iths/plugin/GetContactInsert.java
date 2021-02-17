@@ -8,6 +8,10 @@ import se.iths.spi.IoHandler;
 @Route(url = "/insertcontactviaget")
 public class GetContactInsert extends GetContact implements IoHandler {
 
+	/**
+	 * Parses url-parameters of the request, extracts the firstname / lastname and inserts it to the database.
+	 * Returns the inserted object as json.
+	 */
 	@Override
 	public byte[] urlHandler(String requestPath, String requestBody, String requestMethod) {
 
@@ -19,7 +23,6 @@ public class GetContactInsert extends GetContact implements IoHandler {
 		Contact contact = new Contact(firstName, lastName);
 		contactDao.createContact(contact);
 
-
-		return returnJson(contact);
+		return returnObjectAsJson(contact);
 	}
 }

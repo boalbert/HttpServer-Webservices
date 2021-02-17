@@ -16,14 +16,16 @@ public class ConnectionHandler {
 
 		try (InputStream inputStream = socket.getInputStream()) {
 
+			// Populate the client request
 			HttpRequest httpRequest = new ParseRequest().constructRequest(inputStream);
 
-			// Get handler
-			IoHandler handler = UrlServiceLoader.findWhatImplementationToUse(httpRequest.getRequestPath());
+			// Get implementation of IoHandler based on requested URL
+			IoHandler handler = UrlServiceLoader.findRoute(httpRequest.getRequestPath());
 
-			// Get content back from handler
+			// Return content from chosen IoHandler implementation based on request
 			byte[] content = handler.urlHandler(httpRequest.getRequestPath(), httpRequest.getRequestBody(), httpRequest.getRequestMethod());
 
+			// Send content to client
 			responseHandler.handleResponse(content, socket, httpRequest);
 
 		} catch (Exception e) {
