@@ -15,10 +15,15 @@ Alla förfrågan hanteras med hjålp av plugins som hantera olika typa av filer 
 
 Alla pluginklasser extender från Interfacet IOHanlder som ligger i modul spi.
 
+- `GetContact.java` hanteras GET request som hämtas data från databasen
+- `GetContactInsert.java` hanteres en insert till Databasen via GET
+- `GetFile.java` hanteras GET request för filer
+- `PostContact.java` hanteres en insert till Databasen via POST
+
 ![Skärmavbild 2021-02-16 kl. 20.34.37](https://tva1.sinaimg.cn/large/008eGmZEgy1gnq02hla4aj30ku0d674k.jpg)
 
 
-
+*
 ## Installation
 
 **Klona repository**
